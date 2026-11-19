@@ -1,0 +1,23 @@
+.intro-cover {background:#192d29;color:#faf4df;padding:clamp(108px,13vh,160px) 0 clamp(54px,9vh,100px);overflow:hidden}
+.intro-grid {display:grid;grid-template-columns:1.12fr 1fr;gap:clamp(36px,6vw,100px);align-items:center}
+.intro-role,.intro-figure figcaption {font:500 .75rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.intro-role {color:#d6e6ae;margin:0 0 28px}
+.intro-cover h1 {font:850 clamp(6.2rem,11.8vw,11.2rem)/.85 var(--display);letter-spacing:-.045em;text-transform:uppercase}
+.intro-name {display:grid;width:max-content}
+.intro-name:last-child {color:#e6fc9d}
+.intro-name .trail__text,.intro-photo .trail__img {grid-area:1/1}
+.intro-line {font:italic clamp(1.75rem,3vw,3rem)/1.15 Georgia,serif;letter-spacing:-.04em;margin:32px 0 12px}
+.intro-summary {max-width:52ch;font-size:clamp(1rem,1.25vw,1.2rem);color:#d5dfd6}
+.intro-links {display:flex;align-items:center;flex-wrap:wrap;gap:24px;margin-top:26px}
+.intro-links a {padding:8px 0;border-bottom:1px solid #90a091}
+.intro-links a:first-child {background:#e6fc9d;color:#15261f;padding:11px 20px;border:0;border-radius:2px}
+.intro-links a:hover,.intro-links a:focus-visible {color:#e6fc9d}
+.intro-links a:first-child:is(:hover,:focus-visible){background:#fff;color:#15261f}
+.intro-links a span {display:inline-block;margin-left:12px}
+.intro-figure {padding:clamp(12px,1.8vw,24px);background:#ded6b9;color:#293229;transform:rotate(2deg);position:relative;box-shadow:9px 12px 0 #0e201c}
+.intro-figure::before {content:'';position:absolute;inset:4% 3%;background:#bab69d;transform:rotate(-5deg);z-index:-1}
+.intro-print {background:#d6c89d;overflow:hidden}
+.intro-photo {display:grid;aspect-ratio:1.13;background-size:cover;background-position:center;filter:grayscale(.8) contrast(1.35);mix-blend-mode:multiply}
+.intro-photo img {width:100%;height:100%;min-height:0;object-fit:cover}
+.intro-figure figcaption {display:flex;justify-content:space-between;gap:12px;margin-top:15px;font-size:.66rem}
+@media(max-width:760px){.intro-grid{grid-template-columns:1fr;gap:42px}.intro-cover h1{font-size:clamp(5rem,19vw,9rem)}.intro-figure{width:min(96%,480px);justify-self:center}.intro-role{margin-bottom:18px}}

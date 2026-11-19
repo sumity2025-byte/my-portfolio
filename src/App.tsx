@@ -14,12 +14,13 @@ import Work from './pages/Work'
 
 function Shell() {
   const loc = useLocation()
-  const [ready, setReady] = useState(false)
+  const [playIntro] = useState(() => loc.pathname !== '/')
+  const [, setReady] = useState(false)
   const done = useCallback(() => setReady(true), [])
   useEffect(() => { startLenis() }, [])
   return (
     <>
-      <Preloader onDone={done} />
+      {playIntro && <Preloader onDone={done} />}
       <Nav />
       <main key={loc.pathname}>
         <Routes location={loc}>
@@ -29,7 +30,7 @@ function Shell() {
           <Route path="/skills" element={<Skills />} />
           <Route path="/education" element={<Education />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Home ready={ready} />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
     </>

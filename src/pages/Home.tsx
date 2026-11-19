@@ -1,63 +1,48 @@
-import { lazy, Suspense, useEffect, useRef } from 'react'
-import { SITE, STATS } from '../data'
-import { Footer, PAGES } from '../components/Chrome'
-import { MarqueeMenu, WeightHover } from '../fx/Hover'
-import { MaskCursor } from '../fx/MaskCursor'
+import { useLayoutEffect, useRef } from 'react'
+import { SITE } from '../data'
+import { Footer } from '../components/Chrome'
 import { TLink } from '../fx/PageTransition'
-import { Bands, Count } from '../fx/Scroll'
-import { CharRise, LineRise, Scramble, BlockReveal } from '../fx/Text'
+import { TrailText, TrailImage } from '../fx/intro-trail/trail'
+import { gsap, REDUCED } from '../lib/gsap'
+import HomeStory from '../components/HomeStory'
+import HomePointer from '../fx/HomePointer'
+import './home.css'
 
-const Warehouse = lazy(() => import('../fx/Warehouse'))
+const photograph = '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg'
 
-export default function Home({ ready }: { ready: boolean }) {
-  const progress = useRef(0)
-  useEffect(() => {
-    const on = () => (progress.current = Math.min(1, window.scrollY / (window.innerHeight * 1.1)))
-    on()
-    window.addEventListener('scroll', on, { passive: true })
-    return () => window.removeEventListener('scroll', on)
+export default function Home() {
+  const root = useRef<HTMLElement>(null)
+  useLayoutEffect(() => {
+    if (REDUCED || !root.current) return
+    const trails = Array.from(root.current.querySelectorAll<HTMLElement>('.intro-name'), el =>
+      new TrailText(el, { perspective: 1000, totalTrailElements: 3 }))
+    const picture = new TrailImage(root.current.querySelector<HTMLElement>('.intro-photo')!, { totalTrailElements: 8 })
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { duration: 1.4, ease: 'power4.out' } })
+      trails.forEach((trail, i) => tl.from(trail.DOM.trailElems,
+        { rotateY: i ? 0 : 160, yPercent: i ? 90 : 0, opacity: 0, stagger: -0.08 }, i * 0.1))
+      tl.from(picture.DOM.trailElems, { xPercent: 65, yPercent: 20, rotate: 11, opacity: 0, stagger: -0.03 }, 0)
+    }, root)
+    return () => { ctx.revert(); trails.forEach(trail => trail.reset()); picture.reset() }
   }, [])
-  return (
-    <>
-      <section className="hero">
-        <div className="hero-3d" aria-hidden><Suspense fallback={null}><Warehouse progressRef={progress} /></Suspense></div>
-        <div className="wrap hero-copy">
-          <Scramble><p className="eyebrow">IIM Calcutta MBA · Strategy · Growth · Product</p></Scramble>
-          {ready ? (
-            <WeightHover>
-              <h1 className="hero-title">
-                <CharRise onScroll={false}><span className="ht-line">I fix <span data-weight="thin">the way</span></span></CharRise>
-                <CharRise onScroll={false} delay={0.25}><span className="ht-line">work gets <span className="o">done.</span></span></CharRise>
-              </h1>
-            </WeightHover>
-          ) : <h1 className="hero-title" style={{ visibility: 'hidden' }}><span className="ht-line">I fix the way</span><span className="ht-line">work gets done.</span></h1>}
-          {ready && <LineRise onScroll={false} delay={0.6}><p className="lede">Mechanical engineer turned operator. I build the systems inside India's fastest-moving companies: 2,300+ Blinkit dark stores, ₹100 Cr+ of D2C revenue, ₹235 Cr+ of capex.</p></LineRise>}
-          <div className="cta">
-            <TLink className="btn" to="/work">See the work</TLink>
-            <a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Resume (PDF)</a>
-          </div>
+  return <>
+    <HomePointer />
+    <section className="intro-cover" ref={root}>
+      <div className="intro-grid wrap">
+        <div className="intro-bio">
+          <p className="intro-role">Product, strategy &amp; operations</p>
+          <h1 aria-label="Sumit Yadav"><span className="intro-name" aria-hidden>Sumit</span><span className="intro-name" aria-hidden>Yadav</span></h1>
+          <p className="intro-line">I start on the store floor.</p>
+          <p className="intro-summary">I’m a mechanical engineer and IIM Calcutta graduate. At Blinkit, I turn what I learn in the aisles into better ways to pick, stock and replenish across 2,300+ dark stores.</p>
+          <div className="intro-links"><TLink to="/work">Explore my work <span aria-hidden>↗</span></TLink><a href={SITE.resume} target="_blank" rel="noreferrer">Résumé (PDF)</a></div>
         </div>
-        <p className="hero-hint">Scroll — the grey route is the old pick path. The orange one is what we built.</p>
-      </section>
-
-      <section className="stats wrap">
-        {STATS.map(s => (
-          <div className="stat" key={s.label}><b><Count to={s.n} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals} /></b><span>{s.label}</span></div>
-        ))}
-      </section>
-
-      <MaskCursor
-        front={<>I turn <em>messy operating problems</em> into systems that scale — equal parts analyst, operator and builder.</>}
-        hidden={<>The best strategy is the one that survives contact with the store floor.</>}
-      />
-
-      <Bands a={['Strategy', 'Growth', 'Operations', 'Product']} b={['2,300+ stores', '₹100 Cr+ a year', '₹235 Cr+ capex', '15+ pilots']} />
-
-      <section className="explore">
-        <div className="wrap"><BlockReveal><h2 className="display-sm">Pick a route.</h2></BlockReveal></div>
-        <MarqueeMenu items={PAGES.map((p, i) => ({ to: p.to, label: p.label, tags: p.tags, index: `0${i + 1}` }))} />
-      </section>
-      <Footer />
-    </>
-  )
+        <figure className="intro-figure">
+          <div className="intro-print"><div className="intro-photo" role="img" aria-label="Working notes with handwritten tables and calculations" style={{backgroundImage: 'url(' + photograph + ')'}} /></div>
+          <figcaption><span>From my working notes</span><span>Field archive</span></figcaption>
+        </figure>
+      </div>
+    </section>
+    <HomeStory />
+    <Footer />
+  </>
 }
