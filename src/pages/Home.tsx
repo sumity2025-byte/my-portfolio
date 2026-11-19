@@ -1,45 +1,75 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { TLink } from '../fx/PageTransition'
 import { SITE } from '../data'
 import { Footer } from '../components/Chrome'
-import { TLink } from '../fx/PageTransition'
-import { TrailText, TrailImage } from '../fx/intro-trail/trail'
-import { gsap, REDUCED } from '../lib/gsap'
 import HomeStory from '../components/HomeStory'
 import HomePointer from '../fx/HomePointer'
+import { TrailText } from '../fx/intro-trail/trail'
+import { gsap, REDUCED } from '../lib/gsap'
 import './home.css'
 
-const photograph = '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg'
+import StoreModel from '../fx/StoreModel'
+
+function StoreExhibit() {
+  const [view, setView] = useState<'perspective' | 'plan'>('perspective')
+  return <figure className="store-exhibit">
+    <div className="store-frame">
+      <div className="store-tools">
+        <span className="store-legend">Dark-store study</span>
+        <div className="view-switch" role="group" aria-label="Store model view">
+          <button type="button" aria-pressed={view === 'perspective'} onClick={() => setView('perspective')}>3D view</button>
+          <button type="button" aria-pressed={view === 'plan'} onClick={() => setView('plan')}>Plan</button>
+        </div>
+      </div>
+      <div className="model-window">
+        <StoreModel view={view} />
+      </div>
+      <figcaption className="store-caption"><span className="route-key" aria-hidden="true"/><span>Illustrative pick route</span>{view === 'perspective' && <span className="orbit-hint">Drag to rotate ↔</span>}</figcaption>
+    </div>
+  </figure>
+}
 
 export default function Home() {
-  const root = useRef<HTMLElement>(null)
+  const cover = useRef<HTMLElement>(null)
   useLayoutEffect(() => {
-    if (REDUCED || !root.current) return
-    const trails = Array.from(root.current.querySelectorAll<HTMLElement>('.intro-name'), el =>
-      new TrailText(el, { perspective: 1000, totalTrailElements: 3 }))
-    const picture = new TrailImage(root.current.querySelector<HTMLElement>('.intro-photo')!, { totalTrailElements: 8 })
+    const el = cover.current
+    if (REDUCED || !el) return
+    // The text layers and stagger come from the Drive pack's IntroTrailEffect.
+    const lines = Array.from(el.querySelectorAll<HTMLElement>('.cover-word'), word =>
+      new TrailText(word, { perspective: 1000, totalTrailElements: 3 }))
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { duration: 1.4, ease: 'power4.out' } })
-      trails.forEach((trail, i) => tl.from(trail.DOM.trailElems,
-        { rotateY: i ? 0 : 160, yPercent: i ? 90 : 0, opacity: 0, stagger: -0.08 }, i * 0.1))
-      tl.from(picture.DOM.trailElems, { xPercent: 65, yPercent: 20, rotate: 11, opacity: 0, stagger: -0.03 }, 0)
-    }, root)
-    return () => { ctx.revert(); trails.forEach(trail => trail.reset()); picture.reset() }
+      const enter = gsap.timeline({ defaults: { ease: 'power4.out' } })
+      lines.forEach((line, index) => enter.from(line.DOM.trailElems,
+        { yPercent: index ? 62 : 38, rotateX: -54, opacity: 0, stagger: -0.07, duration: 1 }, 0.1 * index))
+      enter.from('.cover-byline, .cover-copy, .cover-actions', { y: 12, autoAlpha: 0, stagger: 0.07, duration: 0.7 }, 0.08)
+    }, el)
+    return () => { ctx.revert(); lines.forEach(line => line.reset()) }
   }, [])
+
   return <>
     <HomePointer />
-    <section className="intro-cover" ref={root}>
-      <div className="intro-grid wrap">
-        <div className="intro-bio">
-          <p className="intro-role">Product, strategy &amp; operations</p>
-          <h1 aria-label="Sumit Yadav"><span className="intro-name" aria-hidden>Sumit</span><span className="intro-name" aria-hidden>Yadav</span></h1>
-          <p className="intro-line">I start on the store floor.</p>
-          <p className="intro-summary">I’m a mechanical engineer and IIM Calcutta graduate. At Blinkit, I turn what I learn in the aisles into better ways to pick, stock and replenish across 2,300+ dark stores.</p>
-          <div className="intro-links"><TLink to="/work">Explore my work <span aria-hidden>↗</span></TLink><a href={SITE.resume} target="_blank" rel="noreferrer">Résumé (PDF)</a></div>
+    <section className="field-cover" ref={cover} aria-labelledby="cover-heading">
+      <div className="cover-inner">
+        <div className="cover-spread">
+          <div className="cover-text">
+            <p className="cover-byline"><span aria-hidden="true" />IIM Calcutta MBA <i>/</i> Product &amp; operations</p>
+            <h1 id="cover-heading" aria-label="Fieldwork, at scale.">
+              <span className="cover-word" aria-hidden="true">Fieldwork,</span>
+              <span className="cover-word cover-script" aria-hidden="true">at scale.</span>
+            </h1>
+            <p className="cover-copy">I walked 50+ dark stores to understand how pickers find a product. At Blinkit, I turned those observations into tools used across <strong>2,300+ stores.</strong></p>
+            <div className="cover-actions">
+              <TLink className="work-jump" to="/#projects">Explore the work <span aria-hidden="true">↓</span></TLink>
+              <a className="resume-jump" href={SITE.resume} target="_blank" rel="noreferrer">View résumé <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <StoreExhibit />
         </div>
-        <figure className="intro-figure">
-          <div className="intro-print"><div className="intro-photo" role="img" aria-label="Working notes with handwritten tables and calculations" style={{backgroundImage: 'url(' + photograph + ')'}} /></div>
-          <figcaption><span>From my working notes</span><span>Field archive</span></figcaption>
-        </figure>
+        <dl className="cover-evidence">
+          <div><dt>Blinkit <span>/</span> Store network</dt><dd>2,300<span>+</span></dd><dd className="evidence-caption">Dark stores digitized</dd></div>
+          <div><dt>Blinkit <span>/</span> Picking</dt><dd>43<small>%</small><b aria-label="to">→</b>92<small>%</small></dd><dd className="evidence-caption">Pick-path adherence</dd></div>
+          <div><dt>Shopdeck <span>/</span> Growth</dt><dd>₹100<small> Cr+</small></dd><dd className="evidence-caption">Annual D2C revenue managed</dd></div>
+        </dl>
       </div>
     </section>
     <HomeStory />

@@ -2,7 +2,7 @@
 // the destination's name rises in with a hand-drawn stroke, then the blocks open right-to-left.
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { Link, useLocation, useNavigate, type LinkProps } from 'react-router-dom'
-import { gsap, REDUCED, ScrollTrigger, scrollTop } from '../lib/gsap'
+import { gsap, lenis, REDUCED, ScrollTrigger, scrollTop } from '../lib/gsap'
 
 export const TITLES: Record<string, string> = {
   '/': 'Home', '/work': 'Work', '/projects': 'Projects', '/proof': 'Proof',
@@ -21,21 +21,44 @@ export function afterReveal(cb: () => void) {
   return () => window.clearTimeout(id)
 }
 
+function showSection(hash: string, immediate: boolean) {
+  const target = document.getElementById(hash.slice(1))
+  if (!target) return
+  const top = target.getBoundingClientRect().top + window.scrollY - (document.querySelector('header.cv-header')?.clientHeight ?? 70) - 12
+  const focus = target.matches('h1,h2,h3') ? target : target.querySelector<HTMLElement>('h1,h2,h3') ?? target
+  focus.tabIndex = -1
+  focus.focus({ preventScroll: true })
+  if (lenis) lenis.scrollTo(top, { immediate, duration: .7, force: true })
+  else window.scrollTo({ top, behavior: REDUCED || immediate ? 'instant' : 'smooth' })
+}
+
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const current = useRef(pathname)
+  const { pathname, hash } = useLocation()
+  const address = pathname + hash
+  const current = useRef(address)
   const busy = useRef(false)
   const overlay = useRef<HTMLDivElement>(null)
   const label = useRef<HTMLDivElement>(null)
   const word = useRef<HTMLDivElement>(null)
   const stroke = useRef<SVGPathElement>(null)
 
-  // back/forward buttons: no wipe, just start at the top
   useEffect(() => {
-    if (current.current !== pathname && !busy.current) scrollTop()
-    current.current = pathname
-  }, [pathname])
+    const previous = current.current
+    current.current = address
+    const frame = requestAnimationFrame(() => {
+      if (hash) showSection(hash, previous.split('#')[0] !== pathname || previous === address)
+      else if (previous !== address) {
+        if (!busy.current) scrollTop()
+        const heading = document.querySelector<HTMLElement>('main h1')
+        if (heading) {
+          heading.tabIndex = -1
+          heading.focus({ preventScroll: true })
+        }
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [address, hash, pathname])
 
   useLayoutEffect(() => {
     gsap.set(overlay.current!.children, { scaleX: 0, transformOrigin: 'left' })
@@ -43,12 +66,22 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const go = useCallback((to: string) => {
-    if (busy.current || to === current.current) return
-    if (REDUCED) { navigate(to); scrollTop(); return }
+    if (busy.current) return
+    const [nextPage, section] = to.split('#')
+    if (to === current.current) {
+      if (section) showSection('#' + section, REDUCED)
+      else scrollTop()
+      return
+    }
+    if (nextPage === current.current.split('#')[0] || REDUCED) {
+      navigate(to)
+      if (!section) scrollTop()
+      return
+    }
     busy.current = true
     const blocks = Array.from(overlay.current!.children)
     overlay.current!.style.pointerEvents = 'auto'
-    const name = TITLES[to] ?? ''
+    const name = TITLES[nextPage] ?? ''
     word.current!.innerHTML = [...name].map(c => `<span class="tc"><span>${c}</span></span>`).join('')
     const chars = word.current!.querySelectorAll('.tc > span')
     const len = stroke.current!.getTotalLength()
@@ -59,7 +92,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       .set(label.current, { opacity: 1 }, '-=0.15')
       .fromTo(chars, { y: '110%' }, { y: '0%', duration: 0.5, stagger: 0.025, ease: 'power4.out' }, '<')
       .fromTo(stroke.current, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.5, ease: 'power2.inOut' }, '<0.05')
-      .add(() => { current.current = to; revealAt = performance.now() + 380; navigate(to); scrollTop() })
+      .add(() => { revealAt = performance.now() + 380; navigate(to); scrollTop() })
       .to(label.current, { opacity: 0, duration: 0.2, ease: 'power2.out' }, '+=0.1')
       .set(blocks, { transformOrigin: 'right' })
       .to(blocks, {
