@@ -16,7 +16,7 @@ function FluidTrail() {
   }, [invalidate])
   useFrame(() => { if (performance.now() < until.current) invalidate() })
   return <EffectComposer multisampling={0}>
-    <Fluid curl={30} fluidColor="#c49e73" rainbow={false} radius={0.12} densityDissipation={0.90} />
+    <Fluid curl={30} fluidColor="#90c6b8" rainbow={false} radius={0.12} densityDissipation={0.90} />
   </EffectComposer>
 }
 

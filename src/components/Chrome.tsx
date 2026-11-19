@@ -1,91 +1,70 @@
-import { useEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import './navigation.css'
 import { useLocation } from 'react-router-dom'
 import { SITE } from '../data'
 import { TLink } from '../fx/PageTransition'
 import { BlockReveal, LineRise, Scramble } from '../fx/Text'
 
-const sections = [
-  ['about', 'About Sumit'],
-  ['experience', 'Industry experience'],
-  ['projects', 'Projects & work samples'],
-  ['skills', 'Skills'],
-  ['education', 'Academic qualifications'],
-  ['awards', 'Distinctions & competitions'],
-  ['certifications', 'Live projects & certifications'],
-  ['leadership', 'Positions of responsibility'],
-  ['extracurricular', 'Extracurricular activities'],
-  ['social-impact', 'Social impact & non-profit work'],
+const pages = [
+  ['/work', 'Industry experience'],
+  ['/projects', 'Projects & papers'],
+  ['/proof', 'Proof'],
+  ['/skills', 'Skills'],
+  ['/education', 'Education'],
 ]
 
-const detailPages = [
-  ['/work', 'Experience'], ['/projects', 'Projects'], ['/proof', 'Results'],
-  ['/skills', 'Skills'], ['/education', 'Education'],
+const cvSections = [
+  ['/#about', 'About'],
+  ['/#awards', 'Awards & competitions'],
+  ['/#leadership', 'Positions of responsibility'],
+  ['/#social-impact', 'Social initiatives'],
+  ['/#non-profit', 'Entrepreneurial & non-profit'],
+  ['/#live-projects', 'Live projects'],
+  ['/#certifications', 'Certifications'],
+  ['/#extracurricular', 'Extracurricular activities'],
 ]
 
 export function Nav() {
   const { pathname, hash } = useLocation()
   const header = useRef<HTMLElement>(null)
-  const toggle = useRef<HTMLButtonElement>(null)
-  const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
+  useLayoutEffect(() => {
+    const node = header.current!
+    const measure = () => document.documentElement.style.setProperty('--portfolio-header-height', node.offsetHeight + 'px')
+    measure()
+    const resize = new ResizeObserver(measure)
+    resize.observe(node)
+    return () => { resize.disconnect(); document.documentElement.style.removeProperty('--portfolio-header-height') }
+  }, [])
 
-  useEffect(close, [pathname, hash])
-  useEffect(() => {
-    if (!open) return
-    function dismissOutside(event: PointerEvent | FocusEvent) {
-      if (event.target instanceof Node && !header.current?.contains(event.target)) close()
-    }
-    function escape(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        close()
-        toggle.current?.focus()
-      }
-    }
-    document.addEventListener('pointerdown', dismissOutside)
-    document.addEventListener('focusin', dismissOutside)
-    document.addEventListener('keydown', escape)
-    return () => {
-      document.removeEventListener('pointerdown', dismissOutside)
-      document.removeEventListener('focusin', dismissOutside)
-      document.removeEventListener('keydown', escape)
-    }
-  }, [open])
+  const compactLabels: Record<string, string> = {
+    '/work': 'Experience', '/projects': 'Projects', '/#leadership': 'POR', '/#awards': 'Awards',
+    '/#non-profit': 'Non-profit', '/#extracurricular': 'Extracurricular',
+  }
+  const link = ([path, label]: string[], compactOnly = false) =>
+    <TLink key={path} to={path} className={compactOnly ? 'cv-compact-only' : undefined} aria-label={label}
+      aria-current={pathname + hash === path ? (hash ? 'location' : 'page') : undefined}>
+      <span className="cv-long-label">{label}</span><span className="cv-short-label">{compactLabels[path] ?? label}</span>
+    </TLink>
 
-  return (
-    <header className="cv-header" ref={header}>
-      <div className="cv-bar">
-        <TLink to="/" className="cv-brand" onClick={close}>
-          <span className="cv-monogram" aria-hidden="true">SY</span>
-          Sumit Yadav
-        </TLink>
-        <nav className="cv-primary" aria-label="Primary">
-          {detailPages.filter(([path]) => ['/work', '/projects', '/education'].includes(path)).map(([path, label]) =>
-            <TLink key={path} to={path} onClick={close} aria-current={pathname === path ? 'page' : undefined}>{label}</TLink>
-          )}
-        </nav>
-        <div className="cv-index">
-          <button type="button" ref={toggle} className="cv-toggle" aria-expanded={open} aria-controls="cv-contents"
-            onClick={() => setOpen(value => !value)}>CV index <span className="cv-cross" aria-hidden="true" /></button>
-          <div className="cv-dropdown" id="cv-contents" hidden={!open} data-lenis-prevent>
-            <nav aria-label="CV sections">
-              <h2>Explore the CV</h2>
-              <ul>{sections.map(([id, label]) => <li key={id}>
-                <TLink to={'/#' + id} onClick={close} aria-current={pathname === '/' && hash === '#' + id ? 'location' : undefined}>
-                  {label}<span aria-hidden="true">↘</span>
-                </TLink>
-              </li>)}</ul>
-            </nav>
-            <nav className="cv-detail-links" aria-label="Portfolio detail pages">
-              <h3>Detail pages</h3>
-              {detailPages.map(([path, label]) => <TLink key={path} to={path} onClick={close}>{label}</TLink>)}
-            </nav>
-          </div>
-        </div>
-        <TLink to="/contact" onClick={close} className="cv-contact">Contact <span aria-hidden="true">↗</span></TLink>
-      </div>
-    </header>
-  )
+  return <header className="cv-header" ref={header}>
+    <div className="cv-bar">
+      <TLink to="/" className="cv-brand">
+        <span className="cv-monogram" aria-hidden="true">SY</span>Sumit Yadav
+      </TLink>
+      <nav className="cv-primary" aria-label="Portfolio pages">
+        {pages.map(item => link(item))}
+      </nav>
+      <TLink to="/contact" className="cv-contact" aria-current={pathname === '/contact' ? 'page' : undefined}>
+        Contact <span aria-hidden="true">↗</span>
+      </TLink>
+    </div>
+    <div className="cv-shelf"><div className="cv-rail-frame">
+      <nav className="cv-rail" id="cv-section-links" aria-label="CV sections">
+        {pages.map(item => link(item, true))}
+        {cvSections.map(item => link(item))}
+      </nav>
+    </div></div>
+  </header>
 }
 
 export function PageHead({ eyebrow, title, lede }: { eyebrow: string; title: React.ReactNode; lede?: string }) {

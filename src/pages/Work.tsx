@@ -6,8 +6,8 @@ import { BlockReveal, LineRise } from '../fx/Text'
 export default function Work() {
   return (
     <>
-      <PageHead eyebrow="Experience · 35 months" title={<>Where I've <span className="o">shipped.</span></>}
-        lede="Six roles across quick commerce, D2C, capex, B2B sales and consulting. Scroll and follow the route." />
+      <PageHead eyebrow="Industry experience" title={<>Where I've <span className="o">shipped.</span></>}
+        lede="My CV records 37 months of full-time experience, alongside consulting projects and internships in strategy and manufacturing." />
       <PathTimeline>
         <div className="tl wrap">
           {ROLES.map((r, i) => (

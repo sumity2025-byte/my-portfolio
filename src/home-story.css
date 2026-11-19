@@ -47,10 +47,10 @@
 .letter-lede + p { margin:1.35rem 0 1rem; max-width:55ch; }
 .career-index .archive-head { margin-bottom:0; }
 .career-index ol {list-style:none;}
-.career-index li { display:grid;grid-template-columns:.62fr 1.1fr 1.36fr;gap:clamp(1rem,4vw,3.7rem);align-items:baseline;padding:1.5rem .3rem;border-bottom:1px solid var(--rule); }
-.career-index li h3 { font:700 clamp(1.6rem,2.7vw,2.65rem)/1.04 var(--display); letter-spacing:-.015em; }
-.career-index li div > span { font-size:.85rem;display:block;margin-top:.38rem;color:#575952; }
-.career-index li p { font-size:1rem; color:#42443c; }
+.career-index ol > li { display:grid;grid-template-columns:.62fr 1.1fr 1.36fr;gap:clamp(1rem,4vw,3.7rem);align-items:baseline;padding:1.5rem .3rem;border-bottom:1px solid var(--rule); }
+.career-index ol > li h3 { font:700 clamp(1.6rem,2.7vw,2.65rem)/1.04 var(--display); letter-spacing:-.015em; }
+.career-index ol > li div > span { font-size:.85rem;display:block;margin-top:.38rem;color:#575952; }
+.career-index ol > li p { font-size:1rem; color:#42443c; }
 .skills-ledger { background:#222420; color:#f3f0e9; }
 .skills-ledger h2 { margin-bottom:1.25rem; }
 .skills-ledger dl > div { display:grid;grid-template-columns: .85fr 1.25fr; gap:1.5rem; border-top:1px solid #52544d;padding:1.25rem 0; }
@@ -75,7 +75,7 @@
   @keyframes paper-in { from { opacity:.15; translate:3% 10%; rotate:4deg; } to { opacity:1; translate:0 0; rotate:0deg; } }
   @keyframes caption-in { from { opacity:.3;transform:translateY(6px); } to { opacity:1;transform:translateY(0); } }
   @supports(animation-timeline:view()) {
-    .career-index li,.cv-chapters > section,.story-letter .letter-lede { animation:line-enter linear both;animation-timeline:view();animation-range:entry 0% entry 80%; }
+    .career-index ol > li,.cv-chapters > section,.story-letter .letter-lede { animation:line-enter linear both;animation-timeline:view();animation-range:entry 0% entry 80%; }
     @keyframes line-enter { from { transform:translateY(18px); opacity:.55; } to { transform:none;opacity:1; } }
   }
 }
@@ -98,8 +98,8 @@
   .archive-spread {aspect-ratio:1.48;}
   .archive-spread-2 .spread-front {height:64%;}
   .archive-source {font-size:.57rem;}
-  .career-index li {grid-template-columns:1fr;gap:.45rem;padding:1.3rem 0;}
-  .career-index li p {font-size:.94rem;}
+  .career-index ol > li {grid-template-columns:1fr;gap:.45rem;padding:1.3rem 0;}
+  .career-index ol > li p {font-size:.94rem;}
   .skills-ledger dl > div {grid-template-columns:1fr;gap:.5rem;}
   .cv-chapters dl {grid-template-columns:1fr;}
   .personal-record {gap:2.4rem;}
@@ -113,3 +113,11 @@
 }
 
 .archive-links {display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;}
+
+.career-context {padding:1.25rem 0;border-bottom:1px solid var(--rule);max-width:76ch;}
+.home-story details {margin-top:.7rem;}
+.home-story summary {cursor:pointer;display:list-item;width:fit-content;font-weight:650;font-size:.9rem;}
+.home-story summary:focus-visible {outline:2px solid currentColor;outline-offset:3px;}
+.home-story details ul {list-style:disc;margin:.65rem 0 0;padding-left:1.2rem;color:#47483f;}
+.home-story details li {display:list-item;margin:.4rem 0;font-size:.95rem;}
+.cv-chapters p + dl {margin-top:.85rem;}

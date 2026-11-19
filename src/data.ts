@@ -10,14 +10,14 @@ export const STATS = [
   { n: 2300, suffix: '+', label: 'Dark stores impacted' },
   { n: 100, prefix: '₹', suffix: ' Cr+', label: 'D2C revenue a year' },
   { n: 15, suffix: '+', label: 'Pilots scaled pan-India' },
-  { n: 99.64, suffix: '%ile', label: 'CAT', decimals: 2 },
+  { n: 99.14, suffix: '%ile', label: 'CAT', decimals: 2 },
 ]
 
 export type Role = {
   company: string; title: string; period: string; months: string; points: string[]; key: string; keyLabel: string
 }
 export const ROLES: Role[] = [
-  { company: 'Blinkit · Zomato', key: '2,300+', keyLabel: 'dark stores', title: 'Generalist — Product, Strategy & Operations', period: 'May 2025 – Present', months: '14 mo', points: [
+  { company: 'Blinkit · Zomato', key: '2,300+', keyLabel: 'dark stores', title: 'Generalist — Product, Strategy & Operations', period: 'May 2025 – Present', months: 'Current role', points: [
     'Owned product for 2,300+ dark stores; 100% layout digitization and a bin-ID framework adopted chain-wide.',
     'Field discovery across 50+ dark stores; wrote the PRD and designed the digitization flow.',
     'Built a prioritization engine and execution dashboard 0→1; cut inventory variance 43% across the network.',
@@ -34,27 +34,37 @@ export const ROLES: Role[] = [
     'Shipped 5+ merchant dashboard features (bulk grouping, WhatsApp cart-drop, product coupons).',
     'Scoped 20+ Superset dashboards; cut consultant analysis time 30%, escalation meetings by 20 a week.',
     'Wrote a 100-point pre-live checklist and 25-step campaign SOP used for 500+ go-lives by 80 consultants.',
-    '9/10 CSAT and 92% action compliance, highest on the team.',
+    'Earned 9/10 client satisfaction, 50% higher, and trained 50+ consultants in dashboards and ad campaigns.',
+    'Removed bottlenecks in query resolution and reached 92% action compliance, outperforming 15 managers.',
+    'Managed pilot ad campaigns for 120+ clients and earned the highest go-live quality score, 9/10.',
     'Built diagnostic frameworks for RTO and marketing fluctuations, deployed as an SOP across 80 consultants.',
   ]},
   { company: 'Adani Enterprises', key: '₹235 Cr+', keyLabel: 'capex evaluated', title: 'Senior Engineer', period: 'Jan 2022 – Jul 2022', months: '6 mo', points: [
     'SPOC for RMHS (₹180 Cr+) and Steam Dryer (₹55 Cr+); evaluated proposals from 15+ international suppliers.',
-    'Reviewed 200+ technical documents; built a bid-evaluation framework across 10+ suppliers.',
+    'Reviewed 200+ technical documents from China Nerin and TCE and compiled bid evaluations for 10+ international suppliers.',
     'Ran vehicle logistics for 1,000+ employees at Mundra; 25% cost reduction through fleet planning.',
   ]},
-  { company: 'UPS Lakshmi', key: '₹5 Cr', keyLabel: 'in a single month', title: 'Graduate Engineer Trainee — B2B Sales', period: 'Jun 2021 – Jan 2022', months: '7 mo', points: [
+  { company: 'UPS Lakshmi', key: '₹5 Cr', keyLabel: 'in a single month', title: 'Internal Sales Person — B2B Sales', period: 'Jul 2021 – Jan 2022', months: '7 mo', points: [
     'SPOC for 9+ accounts incl. Honeywell and Boeing; highest-ever monthly revenue of ₹5 Cr.',
     'Honeywell sales +60% to ₹80 Lakhs with 95%+ on-time delivery and zero quality rejections.',
     'Demand-driven procurement for 50+ critical items on a 3-year forecast; handled 100+ RFQs alone.',
-    'Setup time cut 67% (12 → 4 hrs) with SMED; 25% (₹80 lakh) cost reduction via six-sigma and lean.',
+    'Worked with three departments on five improvement projects and coordinated 5S on the shop floor.',
+    'Used Six Sigma waste reduction tools to save 380+ labour hours and cut costs by 25% (₹80 lakh).',
+    'Cut setup time 67%, from 12 hours to four, by refurbishing a machine, automating line processes and using SMED.',
   ]},
   { company: 'Accenture', key: '10%', keyLabel: 'budget saved', title: 'Strategy Analyst Intern', period: 'May – Jun 2024', months: '2 mo', points: [
     'Assessed 5 international vendor proposals across 50+ metrics; built the bid-evaluation framework.',
+    'Ran five or more vendor clarification meetings and reviewed more than 20 proposal documents to refine the scope.',
     'Bottom-up should-cost model across 15+ cost drivers: 10% budget savings.',
   ]},
   { company: 'X-Culture', key: 'Top 5%', keyLabel: 'peer-rated, of 6,500+', title: 'International Business Consultant', period: 'Aug – Dec 2024', months: '5 mo', points: [
     'Led GTM and market entry for an international FMCG client; Top 40% of 1,000+ global teams.',
     'Top 9.1% individually and Top 5% on peer evaluations (4.9/5) among 6,500+ students.',
+  ]},
+  { company: 'Honda Motorcycles India', key: '42 → 0', keyLabel: 'minutes of line stoppage', title: 'Summer Trainee — Process Improvement', period: 'Jan – Jun 2020', months: '6 mo', points: [
+    'Investigated mission-case leaks, brought leakage to 0%, and reduced the staffing needed for defect repair by two people per cycle.',
+    'Root-cause analysis eliminated line defects related to the leak. Operator fatigue was reported at 0%.',
+    'Brought line stoppage from 42 minutes to zero and cut overtime 63%, from 2.4 labour hours to 0.9.',
   ]},
 ]
 
@@ -83,14 +93,31 @@ export const CERTS = [
 ]
 
 export const EDU = [
-  { school: 'IIM Calcutta', years: '2023–2025', degree: 'MBA', note: 'CGPA 6.44/9. CAT 99.64%ile (QA 99.83). Converted 12 of 15 IIM calls, incl. IIM-C, IIM-A and IIFT.' },
-  { school: 'NIT Kurukshetra', years: '2017–2021', degree: 'B.Tech, Mechanical Engineering', note: 'CGPA 8.36/10, 10/10 in Sem 6. Academic Excellence Award. Secretary, Mechanical Society (₹4L+ budget, 4K+ footfall).' },
-  { school: 'CBSE', years: '2014 / 2016', degree: 'X: 10/10 CGPA · XII: 87.2%', note: 'Ranked 1st among 1,000+ for 10 years. Head Boy, Student of the Year.' },
+  { school: 'IIM Calcutta', years: '2023–2025', degree: 'MBA, General Management', note: 'PGP · 6.44/9 CGPA.' },
+  { school: 'NIT Kurukshetra', years: '2017–2021', degree: 'B.Tech, Mechanical Engineering', note: '8.36/10 CGPA. Scored 9+ in three of eight semesters, including 10/10 in semester six.' },
+  { school: 'CBSE Class XII', years: '2016', degree: 'Senior Secondary', note: '87.2%.' },
+  { school: 'CBSE Class X', years: '2014', degree: 'Secondary', note: '10/10 CGPA.' },
 ]
-export const ACHIEVE = ['GATE AIR 2070 of 1.2L+ (ME)','Top 1.5%ile in NDA, twice; Indian Navy B.Tech Cadet Entry selectee','10+ certifications in strategy, consulting and PM at 93%+ average, two from Oxford']
+export const ACHIEVE = [
+  'School, 2005–2014 · Ranked first among 100+ students for ten years, received the Academic Excellence Award and a ₹10,000 award.',
+  'School, 2014 · First among 500+ in the school quiz and second among 1,000+ in the science exhibition, earning ₹5,000 in each.',
+  'NIT Kurukshetra, 2017–2018 · First among 20+ national teams in the Junkyard War quadricycle design competition (₹10,000). First among 8+ teams for an energy-conversion contraption (₹10,000), and second among 50+ for a complex-loop roller-coaster prototype (₹6,000).',
+  'NDA, 2016–2017 · Placed in the top 1.5% twice and received a call letter for the Indian Navy’s 10+2 B.Tech Cadet Entry.',
+  'GATE, 2021 · Ranked AIR 2,070 among 120,000+ in Mechanical Engineering (top 2%) and AIR 2,184 among 22,000+ in Engineering Sciences. Qualified for NTPC’s Engineering Executive Trainee selection.',
+  'CAT, 2022 · Scored in the 99.14th percentile among 200,000+ candidates, with 99.83 in Quantitative Ability. Converted 12 of 15 calls including IIMs and IIFT.',
+]
+
+export const LIVE_PROJECTS = [
+  'Integrated AI and gamification into learning platforms and increased engagement by 35%.',
+  'Worked across teams to refine the product and increased customer satisfaction by 30%.',
+  'Improved platform scalability and accessibility, increasing diversity in enrolments by 25%.',
+  'Reworked pricing and delivery models, increasing stakeholder satisfaction by 25% and revenue by 20%.',
+  'Launched a tailored mentorship programme that lifted student engagement by 25% and participation by 40%.',
+  'Introduced performance measures that improved career readiness by 35% and stakeholder satisfaction by 20%.',
+]
 
 export const DOCS = [
-  { label: 'Resume — Strategy & Ops', href: './docs/My_Resume.pdf' },
+  { label: 'Sumit Yadav — Résumé', href: SITE.resume },
   { label: 'CV — Product & Growth', href: './docs/Sumit_Yadav_Product.pdf' },
   { label: 'Shopdeck campaign handbook', href: './docs/Campaign_Handbook__2_.pdf' },
   { label: 'Shopdeck pre-live checklist deck', href: './docs/Pre-Live__PPT_Final__1_.pdf' },

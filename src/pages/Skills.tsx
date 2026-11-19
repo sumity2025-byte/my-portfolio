@@ -15,7 +15,7 @@ export default function Skills() {
         <WeightHover><p className="tool-line">{TOOLS.map((t, i) => <span key={t} data-weight={i % 2 ? 'thin' : undefined}>{t}{i < TOOLS.length - 1 ? ' / ' : ''}</span>)}</p></WeightHover>
       </section>
       <section className="wrap certs">
-        <BlockReveal><h2 className="display-sm">10+ certifications, 93%+ average</h2></BlockReveal>
+        <BlockReveal><h2 className="display-sm">Product and business management certifications</h2></BlockReveal>
         <ul>{CERTS.map(c => <li key={c.title}><Scramble><span className="mono">{c.by}</span></Scramble><b>{c.title}</b></li>)}</ul>
       </section>
       <NextPage to="/education" label="Education" />

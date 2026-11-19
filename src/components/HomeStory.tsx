@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
-import { CERTS, DOCS, ROLES, TOOLS } from '../data'
+import { ACHIEVE, CERTS, DOCS, EDU, LIVE_PROJECTS, ROLES, TOOLS } from '../data'
 import { TLink } from '../fx/PageTransition'
 import SnapshotDissolve from '../fx/SnapshotDissolve'
 import '../home-story.css'
@@ -21,7 +21,7 @@ const roles = [
   { ...ROLES[1], summary: 'Growth operations for 80+ D2C brands generating over ₹100 crore a year.' },
   { ...ROLES[2], summary: 'Evaluated industrial equipment bids for ₹235 crore in planned capital expenditure.' },
   { ...ROLES[3], period: 'Jul 2021 – Jan 2022', summary: 'Cut machine setup time from 12 hours to four while managing aerospace customer accounts.' },
-  { company: 'Honda Motorcycles India', title: 'Summer Trainee', period: 'Jan – Jun 2020', summary: 'Traced a recurring leak on the production line and helped reduce stoppage from 42 minutes to zero.' },
+  { ...ROLES[6], summary: 'Traced a recurring leak on the production line and helped reduce stoppage from 42 minutes to zero.' },
 ]
 
 function WorkArchive() {
@@ -40,7 +40,7 @@ function WorkArchive() {
 
   return <section className="archive-section cv-band" id="projects" aria-labelledby="archive-title">
     <div className="wrap">
-      <header className="archive-head"><div><span className="cv-kicker">Projects &amp; working documents</span><h2 id="archive-title" className="cv-display">Inside the work<span>.</span></h2></div><TLink to="/projects" className="cv-textlink">All projects <span aria-hidden>↗</span></TLink></header>
+      <header className="archive-head"><div><span className="cv-kicker">Projects &amp; papers</span><h2 id="archive-title" className="cv-display">Inside the work<span>.</span></h2></div><TLink to="/projects" className="cv-textlink">All projects <span aria-hidden>↗</span></TLink></header>
       <div className="archive-layout">
         <div className="archive-menu" ref={tabs} aria-label="Work snapshots" role="tablist" aria-orientation="vertical">
           {archive.map((item, i) => <button type="button" key={item.name} role="tab" id={'work-tab-' + i} aria-controls="work-document" aria-selected={index === i} tabIndex={index === i ? 0 : -1} onKeyDown={e => moveTab(e, i)} onClick={() => setIndex(i)}><span className="archive-kind">{item.kind}</span><span className="archive-name">{item.name}</span><span className="archive-arrow" aria-hidden>↗</span></button>)}
@@ -76,8 +76,9 @@ export function HomeStory() {
       </div>
     </div></section>
     <section className="cv-band career-index" id="experience"><div className="wrap">
-      <header className="archive-head"><div><span className="cv-kicker">Industry experience</span><h2 className="cv-display">The track record<span>.</span></h2></div><TLink to="/work" className="cv-textlink">Work history <span aria-hidden>↗</span></TLink></header>
-      <ol>{roles.map(role => <li key={role.company}><time>{role.period}</time><div><h3>{role.company}</h3><span>{role.title}</span></div><p>{role.summary}</p></li>)}</ol>
+      <header className="archive-head"><div><span className="cv-kicker">Industry experience</span><h2 className="cv-display">Experience<span>.</span></h2></div><TLink to="/work" className="cv-textlink">Work history <span aria-hidden>↗</span></TLink></header>
+      <p className="career-context">The CV records 37 months of full-time industry experience. This timeline also includes internships and international consulting work.</p>
+      <ol>{roles.map(role => <li key={role.company}><time>{role.period}</time><div><h3>{role.company}</h3><span>{role.title}</span></div><div className="career-contribution"><p>{role.summary}</p><details><summary>Role details</summary><ul>{role.points.map(point => <li key={point}>{point}</li>)}</ul></details></div></li>)}</ol>
     </div></section>
     <section id="skills" className="skills-ledger cv-band"><div className="wrap ledger-grid"><div><span className="cv-kicker">Capabilities</span><h2 className="cv-display">Skills<span>.</span></h2><TLink className="cv-textlink" to="/skills">Explore skills <span aria-hidden>↗</span></TLink></div>
       <dl>{[
@@ -88,14 +89,30 @@ export function HomeStory() {
     </div></section>
     <div className="wrap cv-band personal-record">
       <section id="education" className="school-record"><span className="cv-kicker">Academic qualifications</span><h2 className="cv-display">Education<span>.</span></h2>
-        <dl><div><dt>IIM Calcutta</dt><dd>MBA, General Management · 2023–2025</dd></div><div><dt>NIT Kurukshetra</dt><dd>B.Tech, Mechanical Engineering · 2017–2021</dd></div></dl><TLink to="/education" className="cv-textlink">Academic record <span aria-hidden>↗</span></TLink>
+        <dl>{EDU.map(item => <div key={item.school}><dt>{item.school}</dt><dd>{item.degree} · {item.years}</dd><dd>{item.note}</dd></div>)}</dl><TLink to="/education" className="cv-textlink">Academic record <span aria-hidden>↗</span></TLink>
       </section>
       <div className="cv-chapters">
-        <section id="awards"><h2>Distinctions &amp; awards</h2><p>My team’s quadricycle won first place against 20+ national teams at Junkyard War in 2018. A year earlier, I won first for an energy-conversion contraption and second for a roller-coaster prototype.</p><p>GATE Mechanical Engineering, AIR 2,070 among more than 120,000 candidates.</p></section>
-        <section id="leadership"><h2>Positions of responsibility</h2><p>As secretary of the Mechanical Society at NIT Kurukshetra, I led 100+ members across five teams and managed a ₹4 lakh-plus budget for ten events. As head of the mess committee, I represented more than 400 students.</p></section>
-        <section id="social-impact"><h2>Non-profit &amp; social impact</h2><p>With Shiksha, I spent over 1,000 hours mentoring more than 100 children. I led campaigns that raised over ₹60,000 and helped build a community library with 500+ books in its first year.</p></section>
-        <section id="extracurricular"><h2>Extracurricular activities</h2><p>I brought a 15-person team together to run two cultural festival events and helped secure sponsorships. As technical fest convener, I grew the festival’s Instagram outreach by 25%.</p></section>
-        <section id="certifications"><h2>Projects &amp; certifications</h2><dl>{CERTS.map(cert => <div key={cert.title}><dt>{cert.title}</dt><dd>{cert.by}</dd></div>)}</dl></section>
+        <section id="awards"><h2>Academic distinctions &amp; co-curricular achievements</h2><p>My team’s quadricycle took first place at Junkyard War. Building it followed two national competition finishes for energy conversion and roller-coaster design.</p>
+          <details><summary>Competition results, awards and exam ranks</summary><ul>{ACHIEVE.map(item => <li key={item}>{item}</li>)}</ul></details>
+        </section>
+        <section id="leadership"><h2>Positions of responsibility</h2><p>As secretary of the Mechanical Society at NIT Kurukshetra in 2021, I led 100+ members across five teams, including audiovisual events. We ran a technical festival with a footfall of over 4,000.</p>
+          <details><summary>Budgets, committees and events</summary><ul>
+            <li>Managed over ₹4 lakh across ten events, prepared the festival’s statement of bills and cut expenses by 25% through prioritisation.</li>
+            <li>Oversaw seven or more technical events, organised 10+ workshops for 80+ society members and arranged an LPS Bossard industrial visit for 50+ members.</li>
+            <li>Led a 15+ member catering committee for 1,000+ guests and the souvenir committee that designed 180+ copies.</li>
+          </ul></details>
+        </section>
+        <section id="extracurricular"><h2>Extracurricular achievements</h2><p>As head of the mess committee from 2018 to 2021, I represented 400+ students and achieved over 90% student satisfaction.</p>
+          <details><summary>School and campus activities</summary><ul>
+            <li>Chosen as head boy from among 1,000+ students and awarded Student of the Year in 2016.</li>
+            <li>Led a 15+ person team for two cultural festival events at NIT Kurukshetra in 2020–2021 and served on the sponsorship committee.</li>
+            <li>As technical festival convener in 2020, increased social media outreach by 25% through Instagram.</li>
+          </ul></details>
+        </section>
+        <section id="non-profit"><h2>Entrepreneurial &amp; non-profit venture</h2><p>With Shiksha, I led multichannel donation campaigns raising over ₹60,000 and helped build a community library with 500+ books in its first year. Our fundraising for the children’s three wishes raised over ₹3 lakh and reached more than 200 children.</p></section>
+        <section id="social-impact"><h2>Social initiatives</h2><p>From 2017 to 2021, I spent over 1,000 hours mentoring more than 100 children through Shiksha. We ran 15+ workshops with five schools and NGOs for over 200 students. Footfall increased by 24% year over year.</p></section>
+        <section id="live-projects"><h2>Live projects</h2><p>In 2024, I worked on learning platforms, pricing and mentorship. The tailored mentorship programme raised student participation by 40%.</p><details><summary>Project outcomes</summary><ul>{LIVE_PROJECTS.map(point => <li key={point}>{point}</li>)}</ul></details></section>
+        <section id="certifications"><h2>Certifications</h2><p>In 2024, I completed 5+ product management certifications with a 93%+ average score and 5+ business management certifications, including two from Oxford.</p><dl>{CERTS.map(cert => <div key={cert.title}><dt>{cert.title}</dt><dd>{cert.by}</dd></div>)}</dl></section>
       </div>
     </div>
   </div>
