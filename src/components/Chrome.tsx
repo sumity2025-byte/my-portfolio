@@ -2,13 +2,14 @@ import { useLayoutEffect, useRef } from 'react'
 import './navigation.css'
 import { useLocation } from 'react-router-dom'
 import { chapterIds, chapterTitles } from '../chapters'
+import WaveField from '../fx/WaveField'
 import SplitGallery from '../fx/SplitGallery'
 import { SITE } from '../data'
 import { TLink } from '../fx/PageTransition'
 import { BlockReveal, LineRise, Scramble } from '../fx/Text'
 
 const archive = [
-  ['/work', 'Work'], ['/projects', 'Projects'], ['/proof', 'Proof'],
+  ['/work', 'Experience'], ['/projects', 'Projects'], ['/proof', 'Proof'],
   ['/skills', 'Skills'], ['/education', 'Education'],
 ]
 
@@ -26,8 +27,9 @@ export function Nav() {
 
   return <header className="cv-header" ref={header}>
     <div className="cv-masthead">
-      <TLink to="/" className="cv-brand" aria-label="Sumit Yadav, home">Sumit Yadav<span aria-hidden="true">.</span></TLink>
+      <TLink to="/" className="cv-brand" aria-label="Sumit Yadav, home">Sumit Yadav<i aria-hidden="true">●</i></TLink>
       <nav className="cv-chapters" aria-label="Primary">
+        <TLink to="/#about" aria-current={pathname === '/' ? 'location' : undefined}>About</TLink>
         {chapterIds.map(id =>
           <TLink key={id} to={'/' + id} aria-current={pathname === '/' + id ? 'page' : undefined}>{chapterTitles[id]}</TLink>
         )}
@@ -63,9 +65,9 @@ export function Footer() {
   return <><section className="document-shelf wrap" aria-labelledby="document-shelf-title">
     <div className="shelf-title"><h2 id="document-shelf-title">From my Shopdeck archive</h2><TLink to="/projects">All projects <span aria-hidden="true">↗</span></TLink></div>
     <SplitGallery />
-  </section><footer className="portfolio-colophon"><div className="colophon-inner">
+  </section><WaveField /><footer className="portfolio-colophon"><div className="colophon-inner">
     <div className="colophon-identity">
-      <TLink to="/" className="cv-brand">Sumit Yadav<span aria-hidden="true">.</span></TLink>
+      <TLink to="/" className="cv-brand">Sumit Yadav<i aria-hidden="true">●</i></TLink>
       <a className="colophon-email" href={'mailto:' + SITE.email}>{SITE.email}</a>
     </div>
     <nav aria-label="Portfolio archive" className="colophon-archive">

@@ -1,5 +1,4 @@
 export const chapterTitles = {
-  about: 'About',
   awards: 'Awards & competitions',
   leadership: 'Positions of responsibility',
   'social-impact': 'Social initiatives',

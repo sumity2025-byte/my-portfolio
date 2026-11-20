@@ -1,9 +1,9 @@
-.cv-chapter-page { --chapter-paper: #f3f0e8; --chapter-ink:#181b18; --chapter-rust:#983626; --chapter-rule:#c3c0b5; background:var(--chapter-paper);color:var(--chapter-ink); }
+.cv-chapter-page { --chapter-paper: var(--bg); --chapter-ink:var(--ink); --chapter-rust:var(--blue); --chapter-rule:var(--line); background:var(--chapter-paper);color:var(--chapter-ink); }
 .chapter-opening {padding-top:clamp(2.2rem,4.2vw,5rem);}
 .chapter-context {font:550 .74rem/1.45 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--chapter-rust);margin-bottom:1.45rem;}
 .chapter-masthead {display:grid;grid-template-columns:minmax(0,2.5fr) minmax(160px,1fr);gap:clamp(2rem,5vw,6rem);align-items:end;border-bottom:1px solid var(--chapter-ink);padding-bottom:clamp(2.5rem,5vw,5rem);}
-.chapter-masthead h1 {font:850 clamp(4.25rem,8.1vw,8.7rem)/.91 var(--display);letter-spacing:-.04em;text-transform:uppercase;overflow-wrap:break-word;}
-.chapter-lead {max-width:48ch;margin-top:1.65rem;font:400 clamp(1.22rem,2vw,1.8rem)/1.36 Georgia,serif;letter-spacing:-.025em;}
+.chapter-masthead h1 {font:900 clamp(4.25rem,8.1vw,8.7rem)/.91 var(--display);letter-spacing:-.04em;text-transform:uppercase;overflow-wrap:break-word;}
+.chapter-lead {max-width:48ch;margin-top:1.65rem;font:400 clamp(1.22rem,2vw,1.8rem)/1.36 var(--sans);letter-spacing:-.025em;}
 .chapter-figure {border-left:1px solid var(--chapter-rule);padding-left:clamp(1.25rem,3vw,3rem);}
 .chapter-figure strong {display:block;text-transform:uppercase;color:var(--chapter-rust);font:750 clamp(3.4rem,7vw,7rem)/.92 var(--display);letter-spacing:-.045em;}
 .chapter-figure figcaption {font:500 .79rem/1.45 var(--mono);max-width:22ch;margin-top:1rem;}

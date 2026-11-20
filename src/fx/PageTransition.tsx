@@ -86,6 +86,9 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
         revealAt = performance.now() + 300
         navigate(to)
       }))
+      // Mobile browser controls can resize the viewport and cancel the snapshots.
+      // The route still commits and finished releases the navigation lock.
+      void transition.ready.catch(() => {})
       void transition.finished.then(finish, finish)
       return
     }

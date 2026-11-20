@@ -9,7 +9,6 @@ import Education from './pages/Education'
 import Home from './pages/Home'
 import Chapter from './pages/Chapter'
 import { chapterIds, chapterTitles } from './chapters'
-import WaveField from './fx/WaveField'
 import Projects from './pages/Projects'
 import Skills from './pages/Skills'
 import Work from './pages/Work'
@@ -41,9 +40,10 @@ function Shell() {
         <a className="skip-content" href="#portfolio-content" onClick={event => { event.preventDefault(); document.getElementById('portfolio-content')?.focus() }}>Skip to content</a>
         <Nav />
         <main key={loc.pathname} id="portfolio-content" tabIndex={-1}>
-          <WaveField className="mast-wave" />
+
           <Routes location={loc}>
             {chapterIds.map(id => <Route key={id} path={'/' + id} element={<Chapter id={id} />} />)}
+            <Route path="/about" element={<Navigate replace to="/#about" />} />
             <Route path="/" element={previousSection ? <Navigate replace to={previousSection} /> : <Home ready={!playIntro} />} />
             <Route path="/work" element={<Work />} />
             <Route path="/projects" element={<Projects />} />

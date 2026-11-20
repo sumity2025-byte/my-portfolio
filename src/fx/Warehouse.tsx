@@ -122,9 +122,9 @@ function Warehouse({ progressRef }: { progressRef: React.MutableRefObject<number
   )
 }
 
-export default function Scene({ progressRef }: { progressRef: React.MutableRefObject<number> }) {
+export default function Scene({ progressRef, running }: { progressRef: React.MutableRefObject<number>; running: boolean }) {
   return (
-    <Canvas shadows dpr={[1, 1.75]} camera={{ fov: 38, near: 0.1, far: 80 }} gl={{ antialias: true, alpha: true }}>
+    <Canvas fallback={null} frameloop={running ? 'always' : 'never'} shadows dpr={[1, 1.75]} camera={{ fov: 38, near: 0.1, far: 80 }} gl={{ antialias: true, alpha: true }}>
       <fog attach="fog" args={['#f6f4ee', 30, 60]} />
       <hemisphereLight args={['#ffffff', '#e9e4d8', 1.6]} />
       <directionalLight position={[8, 16, 6]} intensity={2.2} castShadow shadow-mapSize={[2048, 2048]}

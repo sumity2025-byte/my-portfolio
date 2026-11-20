@@ -1,7 +1,8 @@
 import { Footer } from '../components/Chrome'
-import { ACHIEVE, CERTS, DOCS, LIVE_PROJECTS, SITE } from '../data'
+import { ACHIEVE, CERTS, LIVE_PROJECTS, SITE } from '../data'
 import { TLink } from '../fx/PageTransition'
 import { chapterIds, chapterTitles, type ChapterId } from '../chapters'
+import { ChapterEvidence } from '../components/ChapterEvidence'
 import './chapter.css'
 
 type Entry = { title: string; paragraphs: string[] }
@@ -15,15 +16,6 @@ type ChapterCopy = {
 }
 
 const chapters: Record<ChapterId, ChapterCopy> = {
-  about: {
-    lead: 'I’m Sumit Yadav. I started out fixing a leak on a motorcycle production line. Today, I work on how someone finds the right item on a shelf at Blinkit.',
-    measure: '50+', caption: 'Dark stores visited for field research', context: 'Sumit Yadav · Product, strategy & operations', section: 'From the shop floor',
-    entries: [
-      { title: 'Learning in the factory', paragraphs: ['At Honda, I traced a recurring leak to its cause and helped cut line stoppage from 42 minutes to zero. I graduated in mechanical engineering from NIT Kurukshetra in 2021, then worked with aerospace customers at UPS Lakshmi and industrial equipment suppliers at Adani.'] },
-      { title: 'Learning from merchants', paragraphs: ['At Shopdeck, I worked with more than 80 online brands. When returns rose, my first question was whether they had always been high or whether something had just changed. That distinction became a decision tree consultants could use on their next call.'] },
-      { title: 'Learning in the aisles', paragraphs: ['An MBA at IIM Calcutta gave me a grounding in finance and strategy. At Blinkit, visits to more than 50 dark stores shaped the layout and bin-identification work I led across 2,300+ locations.'] },
-    ],
-  },
   awards: {
     lead: 'Building a quadricycle, designing a roller coaster and taking the engineering entrance exams each tested a different part of my engineering education.',
     measure: '1st', caption: 'Junkyard War quadricycle design, 2018', context: 'Academic distinctions & co-curricular achievements', section: 'The record',
@@ -80,23 +72,9 @@ const chapters: Record<ChapterId, ChapterCopy> = {
   },
 }
 
-function WorkDocuments() {
-  return <section className="chapter-documents">
-    <div className="wrap"><h2>Working documents</h2>
-      <p>At Shopdeck, a page of handwritten notes became a decision tree for returns. A whiteboard mapped changes in marketing performance. I also wrote a campaign handbook and a pre-live checklist for the teams launching sellers.</p>
-    </div>
-    <div className="wrap chapter-source-list">{[
-      ['Returns decision tree', '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg'],
-      ['Marketing whiteboard', '/docs/WhatsApp_Image_2026-04-14_at_5_21_04_AM.jpeg'],
-      ['Campaign handbook', DOCS[2].href + '#page=3'],
-      ['Pre-live checklist', DOCS[3].href + '#page=14'],
-    ].map(([title, href]) => <a key={title} href={href} target="_blank" rel="noreferrer">{title}<span aria-hidden>↗</span></a>)}</div>
-  </section>
-}
-
 export default function Chapter({ id }: { id: ChapterId }) {
   const page = chapters[id]
-  const next = chapterIds[(chapterIds.indexOf(id) + 1) % chapterIds.length]
+  const next = chapterIds[chapterIds.indexOf(id) + 1]
   return <>
     <article className="cv-chapter-page">
       <header className="chapter-opening wrap">
@@ -113,9 +91,9 @@ export default function Chapter({ id }: { id: ChapterId }) {
           {entry.paragraphs.map(body => <p key={body}>{body}</p>)}
         </section>)}</div>
       </section>
-      {id === 'about' && <WorkDocuments />}
+      <ChapterEvidence id={id} />
       <nav className="chapter-continue wrap" aria-label="Related material"><a href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF) <span aria-hidden>↗</span></a>
-        <TLink to={'/' + next}>{chapterTitles[next]} <span aria-hidden>→</span></TLink>
+        <TLink to={next ? '/' + next : '/#about'}>{next ? chapterTitles[next] : 'About Sumit'} <span aria-hidden>→</span></TLink>
       </nav>
     </article>
     <Footer />

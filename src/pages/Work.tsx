@@ -1,3 +1,4 @@
+import BlinkitStudy from '../components/BlinkitStudy'
 import { ROLES } from '../data'
 import { Footer, NextPage, PageHead } from '../components/Chrome'
 import { PathTimeline } from '../fx/Scroll'
@@ -6,8 +7,9 @@ import { BlockReveal, LineRise } from '../fx/Text'
 export default function Work() {
   return (
     <>
-      <PageHead eyebrow="Industry experience" title={<>Where I've <span className="o">shipped.</span></>}
-        lede="My CV records 37 months of full-time experience, alongside consulting projects and internships in strategy and manufacturing." />
+      <PageHead eyebrow="Industry experience" title={<>On the job<span className="o">.</span></>}
+        lede="At Blinkit I lead product work for store operations. Here’s a closer look at a workflow my team designed, followed by the roles in manufacturing, growth and strategy that brought me to it." />
+      <BlinkitStudy />
       <PathTimeline>
         <div className="tl wrap">
           {ROLES.map((r, i) => (

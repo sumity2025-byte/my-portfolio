@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import { gsap, REDUCED, useGSAP } from '../lib/gsap'
 
 export type ShowcaseItem = { tag: string; title: string; body: string; metrics: string[][]; tone: 'orange' | 'blue' | 'yellow' | 'ink' }
-const TINT = { orange: '#eee2d6', blue: '#e1e4dc', yellow: '#ece5d6', ink: '#ecebe6' }
+const TINT = { orange: '#fff0e8', blue: '#eaf0ff', yellow: '#fff6dc', ink: '#ecebe6' }
 
 export function Showcase({ items }: { items: ShowcaseItem[] }) {
   const root = useRef<HTMLElement>(null)

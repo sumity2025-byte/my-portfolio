@@ -1,112 +1,68 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { ArrowDownRight, ArrowUpRight, Pause, Play } from 'lucide-react'
-import { CustomEase } from 'gsap/CustomEase'
+import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
+import { DOCS, SITE, STATS } from '../data'
+import AboutStory from '../components/AboutStory'
 import { Footer } from '../components/Chrome'
-import { SITE } from '../data'
-import { gsap, REDUCED } from '../lib/gsap'
+import WorkFilm from '../components/WorkFilm'
+import { WeightHover } from '../fx/Hover'
 import { TLink } from '../fx/PageTransition'
+import { Bands, Count } from '../fx/Scroll'
+import { CharRise } from '../fx/Text'
+import { REDUCED } from '../lib/gsap'
 import './home.css'
 
-gsap.registerPlugin(CustomEase)
-const revealEase = CustomEase.create('workFilm', '.87,0,.13,1')
+const Warehouse = lazy(() => import('../fx/Warehouse'))
 
-function WorkFilm({ ready }: { ready: boolean }) {
-  const frame = useRef<HTMLElement>(null)
-  const video = useRef<HTMLVideoElement>(null)
-  const [playing, setPlaying] = useState(false)
-  const [failed, setFailed] = useState(false)
-  const [wantsPlay, setWantsPlay] = useState(!REDUCED)
-  useLayoutEffect(() => {
-    if (!ready || REDUCED || !frame.current) return
-    // The supplied hero opens a slit across the frame, then unwinds its rotated video.
-    const ctx = gsap.context(() => {
-      const counter = frame.current!.querySelector<HTMLElement>('.film-counter')
-      const value = { percent: 0 }
-      const tl = gsap.timeline({ defaults: { ease: revealEase } })
-      tl.fromTo('.film-mask', { clipPath: 'polygon(0% 45%,0% 45%,0% 55%,0% 55%)' },
-        { clipPath: 'polygon(0% 45%,25% 45%,25% 55%,0% 55%)', duration: .35 })
-        .to('.film-mask', { clipPath: 'polygon(0% 45%,100% 45%,100% 55%,0% 55%)', duration: .47 })
-        .fromTo('.film-progress', { scaleX: 0 }, { scaleX: 1, duration: .47 }, '<')
-        .to(value, { percent: 100, duration: .47, onUpdate: () => { if (counter) counter.textContent = Math.round(value.percent) + '%' } }, '<')
-        .to('.film-mask', { clipPath: 'polygon(0% 0%,100% 0%,100% 100%,0% 100%)', duration: .64 })
-        .fromTo('.film-media', { scale: .15, rotation: -20 }, { scale: 1, rotation: 0, duration: .78 }, '<')
-        .to('.film-loader', { autoAlpha: 0, duration: .16 }, '<')
-    }, frame)
-    return () => ctx.revert()
-  }, [ready])
-  useEffect(() => {
-    const node = video.current
-    if (!ready || !node || failed) return
-    let visible = false
-    const sync = () => {
-      if (wantsPlay && visible && !document.hidden) void node.play().catch(() => {})
-      else node.pause()
-    }
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting
-      sync()
-    })
-    observer.observe(node)
-    document.addEventListener('visibilitychange', sync)
-    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', sync); node.pause() }
-  }, [ready, wantsPlay, failed])
-
-  function togglePlayback() {
-    const node = video.current
-    if (!node) return
-    const play = node.paused
-    setWantsPlay(play)
-    if (play) void node.play().catch(() => {})
-    else node.pause()
-  }
-
-  return <figure className="work-film" ref={frame}>
-    <div className="film-screen" onPointerMove={event => {
-      if (REDUCED || event.pointerType !== 'mouse') return
-      const el = event.currentTarget
-      const rect = el.getBoundingClientRect()
-      el.style.setProperty('--film-yaw', ((event.clientX - rect.left) / rect.width * 2 - 1).toFixed(3) + 'deg')
-      el.style.setProperty('--film-pitch', (1 - (event.clientY - rect.top) / rect.height * 2).toFixed(3) + 'deg')
-    }} onPointerLeave={event => {
-      event.currentTarget.style.removeProperty('--film-yaw')
-      event.currentTarget.style.removeProperty('--film-pitch')
-    }}>
-      <div className="film-mask"><div className="film-media">
-        <video ref={video} src="/work/working-notes.mp4" muted loop playsInline preload={REDUCED ? 'none' : 'metadata'}
-          poster="/work/working-notes.webp" aria-label="Portfolio film featuring Shopdeck field notes, Honda production work and Shiksha’s library"
-          onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onError={() => setFailed(true)} />
-      </div></div>
-      {!REDUCED && <div className="film-loader" aria-hidden="true"><span className="film-counter">0%</span><span className="film-progress" /></div>}
-      {!failed && <button className="film-toggle" type="button" aria-label={playing ? 'Pause portfolio film' : 'Play portfolio film'}
-        onClick={togglePlayback}>{playing ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>}
-    </div>
-    <figcaption><span>Inside my working files</span><span>Shopdeck &nbsp; / &nbsp; Honda &nbsp; / &nbsp; Shiksha</span></figcaption>
-  </figure>
+class WarehouseFallback extends Component<{ children: ReactNode }, { unavailable: boolean }> {
+  state = { unavailable: false }
+  static getDerivedStateFromError() { return { unavailable: true } }
+  render() { return this.state.unavailable ? null : this.props.children }
 }
 
 export default function Home({ ready }: { ready: boolean }) {
-  const title = useRef<HTMLHeadingElement>(null)
-  useLayoutEffect(() => {
-    if (!ready || REDUCED) return
-    const ctx = gsap.context(() => {
-      gsap.from('.name-word', { yPercent: 110, rotate: 3, transformOrigin: 'bottom left', duration: .85, stagger: .09, ease: 'power3.out' })
-    }, title)
-    return () => ctx.revert()
-  }, [ready])
+  const hero = useRef<HTMLElement>(null)
+  const routeProgress = useRef(0)
+  const [visible, setVisible] = useState(false)
+  const [loadScene, setLoadScene] = useState(false)
+  useEffect(() => {
+    const el = hero.current
+    if (!el || REDUCED) return
+    const observer = new IntersectionObserver(([entry]) => {
+      setVisible(entry.isIntersecting)
+      if (entry.isIntersecting) setLoadScene(true)
+    })
+    observer.observe(el)
+    const follow = () => { routeProgress.current = Math.max(0, Math.min(1, -el.getBoundingClientRect().top / (el.offsetHeight * .85))) }
+    follow()
+    window.addEventListener('scroll', follow, { passive: true })
+    return () => { observer.disconnect(); window.removeEventListener('scroll', follow) }
+  }, [])
   return <>
-    <section className="home-cover wrap" aria-labelledby="portfolio-name">
-      <div className="cover-heading">
-        <div className="cover-signature">
-          <p className="cover-byline">Mechanical engineer &nbsp;/&nbsp; IIM Calcutta MBA</p>
-          <h1 id="portfolio-name" ref={title} aria-label="Sumit Yadav"><span><b className="name-word">Sumit</b></span>{' '}<span><b className="name-word">Yadav<i>.</i></b></span></h1>
-        </div>
-        <div className="cover-intro">
-          <p>I’ve fixed a leak on Honda’s assembly line, helped merchants grow at Shopdeck, and built a library with Shiksha. Today I build products at Blinkit.</p>
-          <div className="cover-links"><TLink to="/about">About me <ArrowDownRight aria-hidden size={17} /></TLink>
-            <a href={SITE.resume} target="_blank" rel="noreferrer">Read my CV <ArrowUpRight aria-hidden size={16} /></a></div>
-        </div>
+    <section ref={hero} className="hero warehouse-hero" aria-labelledby="home-title">
+      <div className="hero-3d" aria-hidden="true">
+        {ready && loadScene && <WarehouseFallback><Suspense fallback={null}><Warehouse running={visible} progressRef={routeProgress} /></Suspense></WarehouseFallback>}
       </div>
+      <div className="wrap hero-copy">
+        <p className="eyebrow">Sumit Yadav · IIM Calcutta MBA</p>
+        {ready ? <WeightHover><h1 className="hero-title" id="home-title" aria-label="I fix the way work gets done.">
+          <CharRise onScroll={false}><span className="ht-line">I fix <span data-weight="thin">the way</span></span></CharRise>
+          <CharRise onScroll={false} delay={.16}><span className="ht-line">work gets <span className="o">done.</span></span></CharRise>
+        </h1></WeightHover> : <h1 className="hero-title" id="home-title"><span className="ht-line">I fix the way</span><span className="ht-line">work gets <span className="o">done.</span></span></h1>}
+        <p className="lede">I’m a mechanical engineer working in product at Blinkit. At Shopdeck, I followed orders from an ad click to a customer’s doorstep. Today I work on the other half of that journey, designing how store teams receive stock, organise shelves and pick an order.</p>
+        <div className="cta"><TLink to="/work" className="btn">Explore my experience <span aria-hidden="true">↗</span></TLink><TLink to="/#about" className="btn btn-ghost">About me <span aria-hidden="true">↓</span></TLink></div>
+      </div>
+      <p className="hero-hint">Scroll to trace the orange pick route through the warehouse.</p>
+    </section>
+    <section className="stats wrap" aria-label="Career in numbers">{STATS.map(s => <div className="stat" key={s.label}><b><Count to={s.n} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals} /></b><span>{s.label}</span></div>)}</section>
+    <AboutStory />
+    <Bands a={['Engineering','Product','Growth','Operations']} b={['NIT Kurukshetra','Shiksha','IIM Calcutta','Blinkit']} />
+    <section className="working-files wrap" aria-labelledby="working-files-title">
+      <header><div><p className="eyebrow">Working documents</p><h2 id="working-files-title">Inside the work<span className="o">.</span></h2></div><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Read my CV ↗</a></header>
       <WorkFilm ready={ready} />
+      <div className="bio-links">{[
+        ['Returns decision tree', '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg'],
+        ['Marketing whiteboard', '/docs/WhatsApp_Image_2026-04-14_at_5_21_04_AM.jpeg'],
+        ['Campaign handbook', DOCS[2].href + '#page=3'], ['Pre-live checklist', DOCS[3].href + '#page=14'],
+      ].map(([title, href]) => <a key={title} href={href} target="_blank" rel="noreferrer">{title} ↗</a>)}</div>
     </section>
     <Footer />
   </>
