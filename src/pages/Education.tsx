@@ -1,5 +1,5 @@
 import { ACHIEVE, EDU } from '../data'
-import { Footer, NextPage, PageHead } from '../components/Chrome'
+import { PageHead } from '../components/Chrome'
 import { BlockReveal, LineRise } from '../fx/Text'
 
 export default function Education() {
@@ -19,8 +19,6 @@ export default function Education() {
         ))}
         <ul className="ach">{ACHIEVE.map(a => <li key={a}>{a}</li>)}</ul>
       </section>
-      <NextPage to="/contact" label="Contact" />
-      <Footer />
     </>
   )
 }

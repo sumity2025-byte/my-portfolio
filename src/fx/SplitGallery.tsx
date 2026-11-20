@@ -5,7 +5,7 @@ import './pack-effects.css'
 export type SplitGalleryItem = { src: string; alt: string; title: string; caption: string; href: string }
 const documents: [SplitGalleryItem, SplitGalleryItem] = [
   { src: '/work/campaign-settings.webp', alt: 'Annotated conversion campaign settings in the Shopdeck handbook', title: 'The campaign handbook', caption: 'A 25-step setup guide for growth consultants.', href: '/docs/Campaign_Handbook__2_.pdf#page=3' },
-  { src: '/work/growth-plan.webp', alt: 'Eight-week growth plan from the Shopdeck launch deck', title: 'The merchant launch plan', caption: 'An eight-week view of merchant onboarding and growth.', href: '/docs/Pre-Live__PPT_Final__1_.pdf#page=14' },
+  { src: '/work/growth-plan.webp', alt: 'Eight-week growth plan from the Shopdeck launch deck', title: 'The merchant launch plan', caption: 'An eight-week view of merchant onboarding and growth.', href: '/docs/Pre-Live__PPT_Final__1_.pdf#page=15' },
 ]
 
 export default function SplitGallery({ items = documents, reversed = false }: {

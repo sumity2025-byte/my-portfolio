@@ -1,6 +1,8 @@
 export const SITE = {
   name: 'Sumit Yadav',
   email: 'sumity2025@email.iimcal.ac.in',
+  phone: '+919728502596',
+  phoneLabel: '+91 97285 02596',
   linkedin: 'https://www.linkedin.com/in/sumit-yadav1/',
   resume: './docs/My_Resume.pdf',
   productCv: './docs/Sumit_Yadav_Product.pdf',
@@ -14,54 +16,56 @@ export const STATS = [
 ]
 
 export type Role = {
-  company: string; title: string; period: string; months: string; points: string[]; key: string; keyLabel: string
+  id: string; company: string; title: string; period: string; months: string; points: string[]; key: string; keyLabel: string
 }
 export const ROLES: Role[] = [
-  { company: 'Blinkit · Zomato', key: '2,300+', keyLabel: 'dark stores', title: 'Generalist — Product, Strategy & Operations', period: 'May 2025 – Present', months: 'Current role', points: [
-    'Owned product for 2,300+ dark stores; 100% layout digitization and a bin-ID framework adopted chain-wide.',
-    'Field discovery across 50+ dark stores; wrote the PRD and designed the digitization flow.',
-    'Built a prioritization engine and execution dashboard 0→1; cut inventory variance 43% across the network.',
-    'Four diagnostic heatmaps on the spatial engine: placement accuracy +22%, complaints −23%.',
-    'Piloted picklist suppression to enforce pick-path adherence: 43% → 92% pan-India, PPI −10%, throughput +7.5%.',
-    'Led a 10+ member product, engineering and ops team through 15+ pilots pan-India.',
-    'Redesigned LT store layouts with spatial analytics: space utilisation 1.5×, 18% GMV uplift per sq. ft.',
-    'FEFO inventory logic with batch segregation for perishables and pharma: expiry complaints down 76%.',
-    'Automated storage-to-replenishment flows; replenishment accuracy up to 90%.',
+  { id: 'blinkit', company: 'Blinkit · Zomato', key: '2,300+', keyLabel: 'dark stores', title: 'Generalist — Product, Strategy & Operations', period: 'May 2025 – Present', months: 'Current role', points: [
+    'Led the rollout of digital floor plans and bin IDs across all 2,300+ Blinkit dark stores.',
+    'Visited more than 50 stores to see how teams recorded stock locations, then wrote the product requirements and designed the mapping workflow.',
+    'Built a tool and dashboard to prioritise inventory discrepancies. Inventory variance fell 43% across the network.',
+    'Introduced four store heatmaps to diagnose picking and storage problems. Placement accuracy improved 22% and complaints fell 23%.',
+    'Changed when items appeared on the pick list. Adherence to the planned route rose from 43% to 92%, time per item fell 10%, and throughput rose 7.5%.',
+    'Led a team of 10+ across product, engineering and operations through more than 15 pilots across India.',
+    'Used spatial analysis to redesign LT store layouts, improving space utilisation 1.5× and gross merchandise value per square foot by 18%.',
+    'Separated batches so teams could pick the earliest expiry first for perishables and pharmaceuticals. Expiry complaints fell 76%.',
+    'Automated the handoff from storage to shelf replenishment, bringing replenishment accuracy to 90%.',
   ]},
-  { company: 'Shopdeck', key: '₹100 Cr+', keyLabel: 'revenue a year', title: 'Assistant Manager — Growth', period: 'Sep 2022 – May 2023', months: '8 mo', points: [
-    'Drove ₹100 Cr+/yr across 80+ clients; order volume 0 → 3M/yr via CTR, CPR and drop-off funnel work.',
-    'Lifted profitability of 42 firms by 118% from a portfolio of 80+ D2C clients.',
-    'Shipped 5+ merchant dashboard features (bulk grouping, WhatsApp cart-drop, product coupons).',
-    'Scoped 20+ Superset dashboards; cut consultant analysis time 30%, escalation meetings by 20 a week.',
-    'Wrote a 100-point pre-live checklist and 25-step campaign SOP used for 500+ go-lives by 80 consultants.',
-    'Earned 9/10 client satisfaction, 50% higher, and trained 50+ consultants in dashboards and ad campaigns.',
-    'Removed bottlenecks in query resolution and reached 92% action compliance, outperforming 15 managers.',
-    'Managed pilot ad campaigns for 120+ clients and earned the highest go-live quality score, 9/10.',
-    'Built diagnostic frameworks for RTO and marketing fluctuations, deployed as an SOP across 80 consultants.',
+  { id: 'x-culture', company: 'X-Culture', key: 'Top 5%', keyLabel: 'peer-rated, of 6,500+', title: 'International Business Consultant', period: 'Aug – Dec 2024', months: '5 mo', points: [
+    'Worked across countries and time zones to develop an expansion strategy covering the market, pricing and distribution.',
+    'Scored in the top 10% on the Global Virtual Team Aptitude Test.',
+    'Led market-entry planning for a consumer goods client. The team’s report ranked in the top 40% of more than 1,000 global teams.',
+    'Ranked in the top 9.1% individually and earned a peer rating of 4.9/5, placing in the top 5%.',
   ]},
-  { company: 'Adani Enterprises', key: '₹235 Cr+', keyLabel: 'capex evaluated', title: 'Senior Engineer', period: 'Jan 2022 – Jul 2022', months: '6 mo', points: [
-    'SPOC for RMHS (₹180 Cr+) and Steam Dryer (₹55 Cr+); evaluated proposals from 15+ international suppliers.',
-    'Reviewed 200+ technical documents from China Nerin and TCE and compiled bid evaluations for 10+ international suppliers.',
-    'Ran vehicle logistics for 1,000+ employees at Mundra; 25% cost reduction through fleet planning.',
+  { id: 'accenture', company: 'Accenture', key: '10%', keyLabel: 'potential budget saving', title: 'Strategy Analyst Intern', period: '2 Apr – 28 May 2024', months: '2 mo', points: [
+    'Compared five international bids for underground mine drilling services across more than 50 criteria.',
+    'Ran five or more vendor clarification meetings and reviewed more than 20 proposal documents to refine the scope.',
+    'Built a bottom-up cost model for lateral mine development using 15+ cost drivers and identified a potential 10% budget saving.',
   ]},
-  { company: 'UPS Lakshmi', key: '₹5 Cr', keyLabel: 'in a single month', title: 'Internal Sales Person — B2B Sales', period: 'Jul 2021 – Jan 2022', months: '7 mo', points: [
-    'SPOC for 9+ accounts incl. Honeywell and Boeing; highest-ever monthly revenue of ₹5 Cr.',
-    'Honeywell sales +60% to ₹80 Lakhs with 95%+ on-time delivery and zero quality rejections.',
-    'Demand-driven procurement for 50+ critical items on a 3-year forecast; handled 100+ RFQs alone.',
+  { id: 'shopdeck', company: 'Shopdeck', key: '₹100 Cr+', keyLabel: 'revenue a year', title: 'Assistant Manager — Growth', period: 'Sep 2022 – May 2023', months: '8 mo', points: [
+    'Grew order volume from zero to 3 million a year across 80+ brands generating over ₹100 crore annually. I tracked where customers dropped out between an ad click and an order.',
+    'Improved profitability by 118% for 42 brands in the portfolio.',
+    'Shipped five or more merchant dashboard features, including bulk grouping, WhatsApp cart reminders and product coupons.',
+    'Defined over 20 Superset dashboards, cutting consultant analysis time by 30% and eliminating 20 escalation meetings a week.',
+    'Wrote the 100-point launch checklist and 25-step campaign SOP that 80 consultants used across more than 500 merchant launches.',
+    'Raised client satisfaction by 50% to 9/10 and trained more than 50 consultants to use dashboards and run ad campaigns.',
+    'Improved how consultants resolved queries. Follow-through on agreed actions reached 92%, ahead of 15 other managers.',
+    'Ran pilot advertising campaigns for over 120 clients and earned the highest launch quality score of 9/10.',
+    'Mapped the causes of returned shipments and swings in ad performance. Eighty consultants used the resulting diagnostic guide.',
+  ]},
+  { id: 'adani', company: 'Adani Enterprises', key: '₹235 Cr+', keyLabel: 'capex evaluated', title: 'Senior Engineer', period: 'Jan 2022 – Jul 2022', months: '6 mo', points: [
+    'Coordinated procurement for a ₹180 crore materials-handling system and a ₹55 crore steam dryer. Evaluated proposals from more than 15 international suppliers.',
+    'Reviewed more than 200 technical documents from China Nerin and TCE and compiled bid evaluations for over 10 international suppliers.',
+    'Planned transport for over 1,000 employees at Mundra and cut fleet costs by 25%.',
+  ]},
+  { id: 'ups-lakshmi', company: 'UPS Lakshmi', key: '₹5 Cr', keyLabel: 'in a single month', title: 'Internal Sales Person — B2B Sales', period: 'Jul 2021 – Jan 2022', months: '7 mo', points: [
+    'Managed more than nine industrial accounts, including Honeywell and Boeing, and delivered a record ₹5 crore in monthly revenue.',
+    'Grew Honeywell sales by 60% to ₹80 lakh, with over 95% on-time delivery and zero quality rejections.',
+    'Used a three-year demand forecast to procure over 50 critical items and independently handled more than 100 requests for quotation.',
     'Worked with three departments on five improvement projects and coordinated 5S on the shop floor.',
     'Used Six Sigma waste reduction tools to save 380+ labour hours and cut costs by 25% (₹80 lakh).',
     'Cut setup time 67%, from 12 hours to four, by refurbishing a machine, automating line processes and using SMED.',
   ]},
-  { company: 'Accenture', key: '10%', keyLabel: 'budget saved', title: 'Strategy Analyst Intern', period: 'May – Jun 2024', months: '2 mo', points: [
-    'Assessed 5 international vendor proposals across 50+ metrics; built the bid-evaluation framework.',
-    'Ran five or more vendor clarification meetings and reviewed more than 20 proposal documents to refine the scope.',
-    'Bottom-up should-cost model across 15+ cost drivers: 10% budget savings.',
-  ]},
-  { company: 'X-Culture', key: 'Top 5%', keyLabel: 'peer-rated, of 6,500+', title: 'International Business Consultant', period: 'Aug – Dec 2024', months: '5 mo', points: [
-    'Led GTM and market entry for an international FMCG client; Top 40% of 1,000+ global teams.',
-    'Top 9.1% individually and Top 5% on peer evaluations (4.9/5) among 6,500+ students.',
-  ]},
-  { company: 'Honda Motorcycles India', key: '42 → 0', keyLabel: 'minutes of line stoppage', title: 'Summer Trainee — Process Improvement', period: 'Jan – Jun 2020', months: '6 mo', points: [
+  { id: 'honda', company: 'Honda Motorcycles India', key: '42 → 0', keyLabel: 'minutes of line stoppage', title: 'Summer Trainee — Process Improvement', period: 'Jan – Jun 2020', months: '6 mo', points: [
     'Investigated mission-case leaks, brought leakage to 0%, and reduced the staffing needed for defect repair by two people per cycle.',
     'Root-cause analysis eliminated line defects related to the leak. Operator fatigue was reported at 0%.',
     'Brought line stoppage from 42 minutes to zero and cut overtime 63%, from 2.4 labour hours to 0.9.',

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { Nav } from './components/Chrome'
+import { Footer, Nav } from './components/Chrome'
 import { TransitionProvider } from './fx/PageTransition'
 import { Preloader, shouldPlayIntro } from './fx/Preloader'
 import { startLenis } from './lib/gsap'
@@ -52,6 +52,7 @@ function Shell() {
             <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </>
   )

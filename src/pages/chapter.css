@@ -6,7 +6,7 @@
 .chapter-entries > section:first-child { border: 0; padding-top: 0; }
 .chapter-entries h3 { font-size: clamp(1.8rem,3vw,3rem); }
 .chapter-entries p { max-width: 65ch; margin-top: .75rem; color: var(--ink2); }
-.cv-chapter-page .display, .cv-chapter-page .next-link { overflow-wrap: anywhere; }
+.cv-chapter-page .display { overflow-wrap: anywhere; }
 @media (max-width: 720px) {
   .chapter-evidence { grid-template-columns: 1fr; gap: 12px; }
   .chapter-evidence .display-sm { margin-bottom: 12px; }

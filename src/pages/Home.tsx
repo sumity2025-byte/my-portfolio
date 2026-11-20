@@ -1,7 +1,7 @@
 import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
 import { DOCS, SITE, STATS } from '../data'
 import AboutStory from '../components/AboutStory'
-import { Footer, PAGES } from '../components/Chrome'
+import { PAGES } from '../components/Chrome'
 import WorkFilm from '../components/WorkFilm'
 import { MarqueeMenu, WeightHover } from '../fx/Hover'
 import { MaskCursor } from '../fx/MaskCursor'
@@ -73,6 +73,5 @@ export default function Home({ ready }: { ready: boolean }) {
       <div className="wrap"><BlockReveal><h2 id="explore-title" className="display-sm">Pick a route.</h2></BlockReveal></div>
       <MarqueeMenu items={PAGES.map((page, index) => ({ ...page, index: String(index + 1).padStart(2, '0') }))} />
     </section>
-    <Footer />
   </>
 }

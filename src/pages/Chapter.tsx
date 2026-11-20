@@ -1,7 +1,7 @@
-import { Footer, NextPage, PageHead } from '../components/Chrome'
+import { PageHead } from '../components/Chrome'
 import { ACHIEVE, CERTS, LIVE_PROJECTS, SITE } from '../data'
 import { BlockReveal } from '../fx/Text'
-import { chapterIds, chapterTitles, type ChapterId } from '../chapters'
+import { chapterTitles, type ChapterId } from '../chapters'
 import { ChapterEvidence } from '../components/ChapterEvidence'
 import './chapter.css'
 
@@ -68,7 +68,6 @@ const chapters: Record<ChapterId, ChapterCopy> = {
 
 export default function Chapter({ id }: { id: ChapterId }) {
   const page = chapters[id]
-  const next = chapterIds[chapterIds.indexOf(id) + 1]
   return <>
     <article className="cv-chapter-page">
       <PageHead eyebrow={page.context} title={chapterTitles[id]} lede={page.lead} />
@@ -84,8 +83,6 @@ export default function Chapter({ id }: { id: ChapterId }) {
       </section>
       <ChapterEvidence id={id} />
       <div className="wrap"><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF) ↗</a></div>
-      <NextPage to={next ? '/' + next : '/#about'} label={next ? chapterTitles[next] : 'About Sumit'} />
     </article>
-    <Footer />
   </>
 }

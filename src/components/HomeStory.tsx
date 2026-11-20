@@ -16,11 +16,11 @@ const archive = [
 
 const roles = [
   { ...ROLES[0], summary: 'Field research in 50+ stores informed digital layouts, bin IDs and a new picking workflow.' },
-  { ...ROLES[5], summary: 'Market entry, pricing and positioning for an international consumer goods client.' },
-  { ...ROLES[4], summary: 'A should-cost model across 15+ cost drivers identified a 10% procurement saving.' },
-  { ...ROLES[1], summary: 'Growth operations for 80+ D2C brands generating over ₹100 crore a year.' },
-  { ...ROLES[2], summary: 'Evaluated industrial equipment bids for ₹235 crore in planned capital expenditure.' },
-  { ...ROLES[3], period: 'Jul 2021 – Jan 2022', summary: 'Cut machine setup time from 12 hours to four while managing aerospace customer accounts.' },
+  { ...ROLES[1], summary: 'Market entry, pricing and positioning for an international consumer goods client.' },
+  { ...ROLES[2], summary: 'A should-cost model across 15+ cost drivers identified a 10% procurement saving.' },
+  { ...ROLES[3], summary: 'Growth operations for 80+ D2C brands generating over ₹100 crore a year.' },
+  { ...ROLES[4], summary: 'Evaluated industrial equipment bids for ₹235 crore in planned capital expenditure.' },
+  { ...ROLES[5], period: 'Jul 2021 – Jan 2022', summary: 'Cut machine setup time from 12 hours to four while managing aerospace customer accounts.' },
   { ...ROLES[6], summary: 'Traced a recurring leak on the production line and helped reduce stoppage from 42 minutes to zero.' },
 ]
 

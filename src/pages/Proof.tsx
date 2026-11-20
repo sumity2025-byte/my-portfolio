@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { Footer, NextPage } from '../components/Chrome'
 import { DotGrid } from '../fx/DotGrid'
 import { Count } from '../fx/Scroll'
 import { BlockReveal, LineRise, Scramble } from '../fx/Text'
@@ -47,8 +46,6 @@ export default function Proof() {
           </div>
         ))}
       </section>
-      <NextPage to="/skills" label="Skills" />
-      <Footer />
     </>
   )
 }

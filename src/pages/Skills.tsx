@@ -1,5 +1,5 @@
 import { CERTS, SKILLS, TOOLS } from '../data'
-import { Footer, NextPage, PageHead } from '../components/Chrome'
+import { PageHead } from '../components/Chrome'
 import { WeightHover } from '../fx/Hover'
 import { SkillCards } from '../fx/SkillCards'
 import { BlockReveal, Scramble } from '../fx/Text'
@@ -18,8 +18,6 @@ export default function Skills() {
         <BlockReveal><h2 className="display-sm">Product and business management certifications</h2></BlockReveal>
         <ul>{CERTS.map(c => <li key={c.title}><Scramble><span className="mono">{c.by}</span></Scramble><b>{c.title}</b></li>)}</ul>
       </section>
-      <NextPage to="/education" label="Education" />
-      <Footer />
     </>
   )
 }

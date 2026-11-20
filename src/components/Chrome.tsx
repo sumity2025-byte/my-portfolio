@@ -30,13 +30,14 @@ export function Nav() {
     <TLink to="/" className="brand" aria-label="Sumit Yadav, home">Sumit Yadav<i aria-hidden="true">●</i></TLink>
     <nav aria-label="Primary">
       <TLink to="/#about" className={pathname === '/' ? 'active' : undefined} aria-current={pathname === '/' ? 'location' : undefined}>About</TLink>
+      <TLink to="/work" className={pathname === '/work' ? 'active' : undefined} aria-current={pathname === '/work' ? 'page' : undefined}>Work experience</TLink>
       {chapterIds.map(id =>
         <TLink key={id} to={'/' + id} className={pathname === '/' + id ? 'active' : undefined} aria-current={pathname === '/' + id ? 'page' : undefined}>{chapterTitles[id]}</TLink>
       )}
     </nav>
     <div className="header-actions">
       <a className="mono" href={SITE.resume} target="_blank" rel="noreferrer" aria-label="Open CV as PDF">CV ↗</a>
-      <TLink className="btn btn-sm" to="/contact">Get in touch</TLink>
+      <TLink className="btn btn-sm" to="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Get in touch</TLink>
     </div>
   </header>
 }
@@ -51,22 +52,30 @@ export function PageHead({ eyebrow, title, lede }: { eyebrow: string; title: Rea
   )
 }
 
-export function NextPage({ to, label }: { to: string; label: string }) {
-  return (
-    <section className="next wrap">
-      <p className="eyebrow">Next</p>
-      <TLink to={to} className="next-link">{label}<span aria-hidden>→</span></TLink>
-    </section>
-  )
-}
-
 export function Footer() {
-  return <footer className="foot wrap">
-    <a href={'mailto:' + SITE.email}><Scramble><span>{SITE.email}</span></Scramble></a>
-    <nav aria-label="Portfolio archive">
-      {PAGES.map(page => <TLink key={page.to} to={page.to}>{page.label}</TLink>)}
-    </nav>
-    <span>© 2026 Sumit Yadav · IIM Calcutta</span>
-    <a href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+  return <footer className="site-footer">
+    <div className="wrap">
+      <nav className="footer-directory" aria-label="Portfolio directory">
+        <div><h2>Portfolio</h2>
+          <TLink to="/#about">About</TLink>
+          {PAGES.map(page => <TLink key={page.to} to={page.to}>{page.to === '/work' ? 'Work experience' : page.label}</TLink>)}
+        </div>
+        <div><h2>Activities &amp; recognition</h2>
+          {chapterIds.map(id => <TLink key={id} to={'/' + id}>{chapterTitles[id]}</TLink>)}
+        </div>
+        <div><h2>Résumés</h2>
+          <a href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF)</a>
+          <a href={SITE.productCv} target="_blank" rel="noreferrer">Product &amp; growth CV (PDF)</a>
+        </div>
+        <div><h2>Contact</h2>
+          <TLink to="/contact">Get in touch</TLink>
+          <a href={'mailto:' + SITE.email}>Email</a>
+          <a href={'sms:' + SITE.phone}>Text message</a>
+          <a href={'tel:' + SITE.phone}>Call</a>
+          <a href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        </div>
+      </nav>
+      <div className="footer-signature"><TLink to="/" className="brand" aria-label="Sumit Yadav, home">Sumit Yadav<i aria-hidden="true">●</i></TLink><span>© 2026 Sumit Yadav</span></div>
+    </div>
   </footer>
 }

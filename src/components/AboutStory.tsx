@@ -45,7 +45,7 @@ const milestones = [
       'I visited more than 50 dark stores to understand how teams located inventory, moved stock and followed a pick list. A floor plan was only useful if a person standing at a rack could match it to the right bin. I worked with product, engineering and operations to give those locations a common address across 2,300+ stores.',
       'One pilot changed the order in which items appeared on a pick list. Adherence to the intended route rose from 43% to 92%, and time per item fell 10%. On the Experience page, you can watch the related location-migration workflow from aisle selection to confirmation.',
     ],
-    links: [['/work', 'See the prototype'], ['/proof', 'Operating results']],
+    links: [['/work#location-migration', 'See the prototype'], ['/proof', 'Operating results']],
   },
 ]
 

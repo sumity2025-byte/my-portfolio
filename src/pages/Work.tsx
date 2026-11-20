@@ -1,35 +1,28 @@
-import BlinkitStudy from '../components/BlinkitStudy'
 import { ROLES } from '../data'
-import { Footer, NextPage, PageHead } from '../components/Chrome'
-import { PathTimeline } from '../fx/Scroll'
-import { BlockReveal, LineRise } from '../fx/Text'
+import { PageHead } from '../components/Chrome'
+import WorkSamples from '../components/WorkSamples'
+import { TLink } from '../fx/PageTransition'
+import './work.css'
 
 export default function Work() {
-  return (
-    <>
-      <PageHead eyebrow="Industry experience" title={<>On the job<span className="o">.</span></>}
-        lede="At Blinkit I lead product work for store operations. Here’s a closer look at a workflow my team designed, followed by the roles in manufacturing, growth and strategy that brought me to it." />
-      <BlinkitStudy />
-      <PathTimeline>
-        <div className="tl wrap">
-          {ROLES.map((r, i) => (
-            <article className={`tl-row ${i % 2 ? 'flip' : ''}`} key={r.company}>
-              <div className="tl-key">
-                <BlockReveal color={i % 2 ? 'var(--blue)' : 'var(--ink)'}><b>{r.key}</b></BlockReveal>
-                <span>{r.keyLabel}</span>
-              </div>
-              <div className="tl-card">
-                <p className="eyebrow">{r.period} · {r.months}</p>
-                <h2>{r.company}</h2>
-                <p className="tl-title">{r.title}</p>
-                <ul>{r.points.map(p => <LineRise key={p}><li>{p}</li></LineRise>)}</ul>
-              </div>
-            </article>
-          ))}
-        </div>
-      </PathTimeline>
-      <NextPage to="/projects" label="Projects" />
-      <Footer />
-    </>
-  )
+  return <>
+    <PageHead eyebrow="Career history" title={<>Work experience<span className="o">.</span></>} />
+    <div className="work-layout wrap">
+      <nav className="role-index" aria-label="Jump to a role">
+        <p className="eyebrow">Jump to a role</p>
+        <ul>{ROLES.map(r => <li key={r.id}><TLink to={'/work#' + r.id}>{r.company}<span aria-hidden="true">↘</span></TLink></li>)}</ul>
+      </nav>
+      <div className="role-list">{ROLES.map(r =>
+        <article className="work-role" id={r.id} key={r.id} aria-labelledby={r.id + '-heading'}>
+          <header>
+            <p className="role-period">{r.period}</p>
+            <h2 id={r.id + '-heading'}>{r.company}</h2>
+            <p className="role-title">{r.title}</p>
+          </header>
+          <ul className="role-points">{r.points.map(point => <li key={point}>{point}</li>)}</ul>
+          <WorkSamples role={r.id} />
+        </article>
+      )}</div>
+    </div>
+  </>
 }

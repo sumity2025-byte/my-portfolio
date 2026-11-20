@@ -120,16 +120,9 @@ em { font-style: normal; color: var(--orange); }
 .mq-dot { width: clamp(28px, 4vw, 56px); height: clamp(28px, 4vw, 56px); border-radius: 50%; background: var(--orange); margin: 0 1.5vw; flex: none; }
 @keyframes mq { to { transform: translate3d(-50%, 0, 0); } }
 
-/* page head + next */
+/* Page heading */
 main { position: relative; }
 .page-head { padding: clamp(36px,4.6vw,72px) 0 70px; }
-.next { padding: 90px 0 40px; border-top: 1.5px solid var(--ink); margin-top: 80px; }
-.next-link { display: inline-flex; align-items: center; gap: .3em; font: 900 clamp(3.6rem, 10vw, 9rem)/.9 var(--display); text-transform: uppercase; transition: color .3s; }
-.next-link span { transition: transform .4s var(--ease); }
-.next-link:hover { color: var(--orange); }
-.next-link:hover span { transform: translateX(16px); }
-.foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding: 36px 0 40px; font: .9rem var(--mono); color: var(--mute); border-top: 1px solid var(--line); margin-top: 60px; }
-.foot a:hover { color: var(--orange); }
 
 /* work timeline (Scroll Animation #33) */
 .path-wrap { position: relative; overflow: hidden; padding: 40px 0 120px; }
@@ -272,5 +265,5 @@ main { position: relative; }
 .preloader-svg {left:0;pointer-events:none}
 .intro-skip {position:absolute;right:24px;bottom:24px;z-index:2;border:1px solid #fff7;color:white;background:transparent;border-radius:999px;padding:8px 16px;font:.8rem var(--mono);cursor:pointer}
 button,input,select,textarea {font-family:var(--sans)}
-@media(max-width:600px){.proof-hero{min-height:65svh}.next-link{font-size:clamp(2.1rem,8vw,3.5rem);max-width:100%}}
+@media(max-width:600px){.proof-hero{min-height:65svh}}
 @media(prefers-reduced-motion:reduce),(hover:none){.mask-layer{display:none}}

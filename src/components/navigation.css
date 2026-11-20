@@ -1,10 +1,9 @@
 :root { --portfolio-header-height: 80px; }
 .nav.cv-header { gap: 16px; }
 .cv-header nav { flex-wrap: wrap; justify-content: center; align-items: center; }
-.header-actions, .foot nav { display: flex; align-items: center; gap: 14px; }
+.header-actions { display: flex; align-items: center; gap: 14px; }
 .header-actions { flex: none; font-size: .82rem; }
 .header-actions .btn { white-space: nowrap; }
-.foot nav { flex-wrap: wrap; }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 
 @media (max-width: 1370px) {
@@ -20,5 +19,15 @@
 @media (max-width: 600px) {
   .nav.cv-header nav { gap: 2px 3px; }
   .nav.cv-header nav a { font-size: .71rem; line-height: 1.4; padding: 4px 5px; letter-spacing: .01em; }
-  .foot { flex-direction: column; align-items: flex-start; }
+}
+
+.site-footer { margin-top: clamp(3.5rem,8vw,8rem); background: var(--bg2); border-top: 1px solid var(--line); }
+.footer-directory { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 24px; padding-block: clamp(2.25rem,4.5vw,4rem); }
+.footer-directory h2 { font: 750 clamp(1.35rem,2.1vw,1.8rem)/1.05 var(--display); margin-bottom: 12px; }
+.footer-directory a { display: block; width: fit-content; max-width: 100%; color: var(--ink2); font-size: .95rem; line-height: 1.35; padding-block: 5px; }
+.footer-directory a:is(:hover,:focus-visible) { color: var(--blue); text-decoration: underline; text-underline-offset: .2em; }
+.footer-signature { border-top: 1px solid var(--line); padding-block: 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.footer-signature span { font: .72rem/1.4 var(--mono); color: var(--mute); }
+@media (max-width: 740px) {
+  .footer-directory { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 26px 18px; }
 }
