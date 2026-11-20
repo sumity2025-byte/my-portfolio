@@ -1,26 +1,25 @@
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { Link, useLocation, useNavigate, type LinkProps } from 'react-router-dom'
+import { pageTitles } from '../chapters'
 import { gsap, lenis, REDUCED, ScrollTrigger, scrollTop } from '../lib/gsap'
 
 const Ctx = createContext<(to: string) => void>(() => {})
-
-// Pages mount while the screen is still covered. Effects call afterReveal() so their
-// entrance animations start as the blocks open, not behind them.
 let revealAt = 0
+
 export function afterReveal(cb: () => void) {
   const wait = Math.max(0, revealAt - performance.now())
   if (!wait) { cb(); return () => {} }
-  const id = window.setTimeout(cb, wait)
-  return () => window.clearTimeout(id)
+  const timer = window.setTimeout(cb, wait)
+  return () => window.clearTimeout(timer)
 }
 
 function showSection(hash: string, immediate: boolean) {
-  const target = document.getElementById(hash.slice(1))
-  if (!target) return
-  const top = target.getBoundingClientRect().top + window.scrollY - (document.querySelector('header.cv-header')?.clientHeight ?? 70) - 12
-  const focus = target.matches('h1,h2,h3') ? target : target.querySelector<HTMLElement>('h1,h2,h3') ?? target
-  focus.tabIndex = -1
-  focus.focus({ preventScroll: true })
+  const section = document.getElementById(hash.slice(1))
+  if (!section) return
+  const top = section.getBoundingClientRect().top + window.scrollY - (document.querySelector('header.cv-header')?.clientHeight ?? 70) - 12
+  const heading = section.querySelector<HTMLElement>('h1,h2,h3') ?? section
+  heading.tabIndex = -1
+  heading.focus({ preventScroll: true })
   if (lenis) lenis.scrollTo(top, { immediate, duration: .7, force: true })
   else window.scrollTo({ top, behavior: REDUCED || immediate ? 'instant' : 'smooth' })
 }
@@ -29,89 +28,95 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const { pathname, hash } = useLocation()
   const address = pathname + hash
-  const current = useRef(address)
-  const busy = useRef(false)
-  const pending = useRef<{ address: string; resolve: () => void } | null>(null)
-  const fallback = useRef<HTMLDivElement>(null)
+  const previous = useRef(address)
+  const destination = useRef<string | null>(null)
+  const overlay = useRef<HTMLDivElement>(null)
+  const label = useRef<HTMLDivElement>(null)
+  const word = useRef<HTMLDivElement>(null)
+  const stroke = useRef<SVGPathElement>(null)
+  const animation = useRef<gsap.core.Timeline | null>(null)
 
   useLayoutEffect(() => {
-    const task = pending.current
-    if (task && task.address === address) {
-      if (hash) showSection(hash, true)
-      else scrollTop()
-      task.resolve()
-      pending.current = null
+    const from = previous.current
+    previous.current = address
+    // A history navigation may interrupt a wipe before the destination mounts.
+    if (destination.current && destination.current !== address) {
+      animation.current?.kill()
+      destination.current = null
+      revealAt = 0
+      gsap.set(overlay.current!.children, { scaleX: 0 })
+      gsap.set(label.current, { opacity: 0 })
+      overlay.current!.style.pointerEvents = 'none'
     }
-  }, [address, hash])
-
-  useEffect(() => {
-    const previous = current.current
-    current.current = address
-    const frame = requestAnimationFrame(() => {
-      if (hash) showSection(hash, previous.split('#')[0] !== pathname || previous === address)
-      else if (previous !== address) {
-        if (!busy.current) scrollTop()
-        const heading = document.querySelector<HTMLElement>('main h1')
-        if (heading) {
-          heading.tabIndex = -1
-          heading.focus({ preventScroll: true })
-        }
-      }
-    })
-    return () => cancelAnimationFrame(frame)
+    if (hash) showSection(hash, REDUCED || from === address || from.split('#')[0] !== pathname)
+    else if (from !== address) {
+      scrollTop()
+      const heading = document.querySelector<HTMLElement>('main h1') ?? document.getElementById('portfolio-content')
+      if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }) }
+    }
   }, [address, hash, pathname])
+  useEffect(() => () => { animation.current?.kill(); revealAt = 0 }, [])
 
   const go = useCallback((to: string) => {
-    if (busy.current) return
-    const [nextPage, section] = to.split('#')
-    if (to === current.current) {
+    if (destination.current) return
+    const [path, section] = to.split('#')
+    if (to === previous.current) {
       if (section) showSection('#' + section, REDUCED)
       else scrollTop()
       return
     }
-    if (nextPage === current.current.split('#')[0] || REDUCED) {
-      navigate(to)
-      if (!section) scrollTop()
-      return
-    }
-    busy.current = true
-    // Keep the masthead in place while the next page opens through the film’s horizontal mask.
-    const finish = () => {
-      busy.current = false
+    if (REDUCED || path === previous.current.split('#')[0]) { navigate(to); return }
+    destination.current = to
+    const blocks = Array.from(overlay.current!.children)
+    overlay.current!.style.pointerEvents = 'auto'
+    const name = pageTitles[to] ?? pageTitles[path] ?? 'Home'
+    // Keep each word together when longer CV titles span multiple lines.
+    const words = name.split(' ').map(text => {
+      const group = document.createElement('span')
+      group.className = 'pt-token'
+      for (const letter of text) {
+        const mask = document.createElement('span')
+        mask.className = 'tc'
+        const character = document.createElement('span')
+        character.textContent = letter
+        mask.append(character)
+        group.append(mask)
+      }
+      return group
+    })
+    word.current!.replaceChildren(...words)
+    word.current!.classList.toggle('pt-long-title', name.length > 14)
+    const characters = word.current!.querySelectorAll('.tc > span')
+    const length = stroke.current!.getTotalLength()
+    // The original pack's 20-panel wipe, rising letters and drawn underline.
+    animation.current = gsap.timeline({ onComplete: () => {
+      destination.current = null
+      overlay.current!.style.pointerEvents = 'none'
       ScrollTrigger.refresh()
-    }
-    if (typeof document.startViewTransition === 'function') {
-      const transition = document.startViewTransition(() => new Promise<void>(resolve => {
-        pending.current = { address: to, resolve }
-        revealAt = performance.now() + 300
-        navigate(to)
-      }))
-      // Mobile browser controls can resize the viewport and cancel the snapshots.
-      // The route still commits and finished releases the navigation lock.
-      void transition.ready.catch(() => {})
-      void transition.finished.then(finish, finish)
-      return
-    }
-    const sheet = fallback.current
-    if (!sheet) { navigate(to); finish(); return }
-    gsap.timeline({ onComplete: finish })
-      .set(sheet, { visibility: 'visible', clipPath: 'inset(49.9% 100% 49.9% 0%)' })
-      .to(sheet, { clipPath: 'inset(48% 0% 48% 0%)', duration: .19, ease: 'power2.in' })
-      .to(sheet, { clipPath: 'inset(0% 0% 0% 0%)', duration: .24, ease: 'power2.inOut' })
-      .call(() => { revealAt = performance.now() + 160; navigate(to); scrollTop() })
-      .to(sheet, { clipPath: 'inset(0% 0% 100% 0%)', duration: .37, ease: 'power3.inOut' })
-      .set(sheet, { visibility: 'hidden' })
+    } })
+      .set(blocks, { transformOrigin: 'left' })
+      .to(blocks, { scaleX: 1, duration: .35, stagger: .012, ease: 'power2.out' })
+      .set(label.current, { opacity: 1 }, '-=.15')
+      .fromTo(characters, { y: '110%' }, { y: '0%', duration: .5, stagger: .025, ease: 'power4.out' }, '<')
+      .fromTo(stroke.current, { strokeDasharray: length, strokeDashoffset: length }, { strokeDashoffset: 0, duration: .5, ease: 'power2.inOut' }, '<.05')
+      .call(() => { revealAt = performance.now() + 380; navigate(to) })
+      .to(label.current, { opacity: 0, duration: .2, ease: 'power2.out' }, '+=.1')
+      .set(blocks, { transformOrigin: 'right' })
+      .to(blocks, { scaleX: 0, duration: .35, stagger: .012, ease: 'power2.inOut' }, '<.05')
   }, [navigate])
 
-  return (
-    <Ctx.Provider value={go}>
-      {children}
-      <div className="page-sheet" ref={fallback} aria-hidden />
-    </Ctx.Provider>
-  )
+  return <Ctx.Provider value={go}>
+    {children}
+    <div className="pt-overlay" ref={overlay} aria-hidden="true">{Array.from({ length: 20 }, (_, i) => <div key={i} className="pt-block" />)}</div>
+    <div className="pt-label" ref={label} aria-hidden="true">
+      <div className="pt-word" ref={word} />
+      <svg className="pt-stroke" viewBox="0 0 420 40" fill="none" preserveAspectRatio="none">
+        <path ref={stroke} d="M6 26 C 70 10, 140 34, 210 20 S 350 8, 414 22" stroke="var(--orange)" strokeWidth="7" strokeLinecap="round" />
+      </svg>
+    </div>
+  </Ctx.Provider>
 }
 
-/** Link that plays the transition. Modifier-clicks behave normally. */
 export function TLink({ to, onClick, ...rest }: Omit<LinkProps, 'to'> & { to: string }) {
   const go = useContext(Ctx)
   return <Link to={to} {...rest} onClick={e => {

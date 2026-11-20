@@ -1,6 +1,6 @@
-import { Footer } from '../components/Chrome'
+import { Footer, NextPage, PageHead } from '../components/Chrome'
 import { ACHIEVE, CERTS, LIVE_PROJECTS, SITE } from '../data'
-import { TLink } from '../fx/PageTransition'
+import { BlockReveal } from '../fx/Text'
 import { chapterIds, chapterTitles, type ChapterId } from '../chapters'
 import { ChapterEvidence } from '../components/ChapterEvidence'
 import './chapter.css'
@@ -31,17 +31,11 @@ const chapters: Record<ChapterId, ChapterCopy> = {
     ],
   },
   'social-impact': {
-    lead: 'Through Shiksha, I mentored children and worked with local schools and NGOs to bring more students into the programme.',
-    measure: '1,000+', caption: 'Hours spent mentoring children', context: 'Shiksha · 2017–2021', section: 'Mentoring & outreach',
+    lead: 'Over four years with Shiksha, I mentored children, organised workshops with local schools and NGOs, and helped raise the money for a community library.',
+    measure: '1,000+', caption: 'Hours spent mentoring children', context: 'Shiksha · 2017–2021', section: 'Teaching & fundraising',
     entries: [
       { title: 'Mentoring', paragraphs: ['Over four years, I spent more than 1,000 hours mentoring over 100 children.'] },
       { title: 'School partnerships', paragraphs: ['We organised 15+ workshops with five schools and NGOs for more than 200 students. Attendance grew 24% year over year.'] },
-    ],
-  },
-  'non-profit': {
-    lead: 'With Shiksha, I helped turn donations into a community library and raised funds to fulfil children’s wishes.',
-    measure: '500+', caption: 'Books in the library’s first year', context: 'Shiksha · 2017–2021', section: 'Community fundraising',
-    entries: [
       { title: 'A community library', paragraphs: ['I led multichannel donation campaigns that raised over ₹60,000 and helped build a community library. In its first year, the library held more than 500 books.'] },
       { title: 'Three wishes', paragraphs: ['Our fundraising raised over ₹3 lakh to fulfil three wishes for more than 200 children.'] },
     ],
@@ -77,24 +71,20 @@ export default function Chapter({ id }: { id: ChapterId }) {
   const next = chapterIds[chapterIds.indexOf(id) + 1]
   return <>
     <article className="cv-chapter-page">
-      <header className="chapter-opening wrap">
-        <p className="chapter-context">{page.context}</p>
-        <div className="chapter-masthead">
-          <div><h1>{chapterTitles[id]}</h1><p className="chapter-lead">{page.lead}</p></div>
-          <figure className="chapter-figure"><strong>{page.measure}</strong><figcaption>{page.caption}</figcaption></figure>
-        </div>
-      </header>
+      <PageHead eyebrow={page.context} title={chapterTitles[id]} lede={page.lead} />
+      <figure className="chapter-figure wrap">
+        <strong>{page.measure}</strong><figcaption>{page.caption}</figcaption>
+      </figure>
       <section className="chapter-evidence wrap">
-        <h2>{page.section}</h2>
+        <BlockReveal><h2 className="display-sm">{page.section}</h2></BlockReveal>
         <div className="chapter-entries">{page.entries.map(entry => <section key={entry.title}>
           <h3>{entry.title}</h3>
           {entry.paragraphs.map(body => <p key={body}>{body}</p>)}
         </section>)}</div>
       </section>
       <ChapterEvidence id={id} />
-      <nav className="chapter-continue wrap" aria-label="Related material"><a href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF) <span aria-hidden>↗</span></a>
-        <TLink to={next ? '/' + next : '/#about'}>{next ? chapterTitles[next] : 'About Sumit'} <span aria-hidden>→</span></TLink>
-      </nav>
+      <div className="wrap"><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF) ↗</a></div>
+      <NextPage to={next ? '/' + next : '/#about'} label={next ? chapterTitles[next] : 'About Sumit'} />
     </article>
     <Footer />
   </>

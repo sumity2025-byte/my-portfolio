@@ -2,35 +2,32 @@ import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Nav } from './components/Chrome'
 import { TransitionProvider } from './fx/PageTransition'
-import { Preloader } from './fx/Preloader'
-import { REDUCED, startLenis } from './lib/gsap'
+import { Preloader, shouldPlayIntro } from './fx/Preloader'
+import { startLenis } from './lib/gsap'
 import Contact from './pages/Contact'
 import Education from './pages/Education'
 import Home from './pages/Home'
 import Chapter from './pages/Chapter'
-import { chapterIds, chapterTitles } from './chapters'
+import { chapterIds, pageTitles } from './chapters'
 import Projects from './pages/Projects'
 import Skills from './pages/Skills'
 import Work from './pages/Work'
-import HomePointer from './fx/HomePointer'
 
 const Proof = lazy(() => import('./pages/Proof'))
 
 const oldSections: Record<string, string> = {
   ...Object.fromEntries(chapterIds.map(id => [id, '/' + id])),
-  experience: '/work', work: '/work', projects: '/projects', skills: '/skills', education: '/education',
+  'non-profit': '/social-impact', experience: '/work', work: '/work', projects: '/projects', skills: '/skills', education: '/education',
 }
 
 function Shell() {
   const loc = useLocation()
-  const [playIntro, setPlayIntro] = useState(() => loc.pathname === '/' && !loc.hash && !REDUCED)
+  const [playIntro, setPlayIntro] = useState(() => !loc.hash && loc.pathname !== '/about' && shouldPlayIntro())
   const previousSection = loc.pathname === '/' ? oldSections[loc.hash.slice(1)] : undefined
   useEffect(() => {
-    const chapter = chapterIds.find(id => '/' + id === loc.pathname)
-    const names: Record<string, string> = { '/work': 'Industry experience', '/projects': 'Projects & papers', '/proof': 'Proof', '/skills': 'Skills', '/education': 'Education', '/contact': 'Contact' }
-    const heading = chapter ? chapterTitles[chapter] : names[loc.pathname]
-    document.title = heading ? heading + ' · Sumit Yadav' : 'Sumit Yadav · Product, strategy & operations'
-  }, [loc.pathname])
+    const title = pageTitles[loc.pathname + loc.hash] ?? pageTitles[loc.pathname]
+    document.title = title && title !== 'Home' ? title + ' · Sumit Yadav' : 'Sumit Yadav · Product, strategy & operations'
+  }, [loc.pathname, loc.hash])
   const done = useCallback(() => setPlayIntro(false), [])
   useEffect(() => { if (!playIntro) startLenis() }, [playIntro])
   return (
@@ -43,6 +40,7 @@ function Shell() {
 
           <Routes location={loc}>
             {chapterIds.map(id => <Route key={id} path={'/' + id} element={<Chapter id={id} />} />)}
+            <Route path="/non-profit" element={<Navigate replace to="/social-impact" />} />
             <Route path="/about" element={<Navigate replace to="/#about" />} />
             <Route path="/" element={previousSection ? <Navigate replace to={previousSection} /> : <Home ready={!playIntro} />} />
             <Route path="/work" element={<Work />} />
@@ -55,7 +53,6 @@ function Shell() {
           </Routes>
         </main>
       </div>
-      {!playIntro && <HomePointer />}
     </>
   )
 }
