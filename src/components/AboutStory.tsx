@@ -33,7 +33,7 @@ const milestones = [
     period: 'IIM Calcutta · MBA, 2025',
     title: 'Learning to price a decision',
     paragraphs: [
-      'After scoring in the 99.14th percentile in CAT, I joined IIM Calcutta. At Accenture Strategy & Consulting, I compared five international bids and built a model of what the purchase should cost. Breaking the price into more than fifteen drivers helped us identify a potential 10% saving.',
+      'After scoring in the 99.64th percentile in CAT, I joined IIM Calcutta. At Accenture Strategy & Consulting, I compared five international bids and built a model of what the purchase should cost. Breaking the price into more than fifteen drivers helped us identify a potential 10% saving.',
       'I also worked with an international X-Culture team on market entry for a consumer goods client. Two live projects with Skilled Sapiens gave me a chance to work on product and brand management as well as business strategy and growth.',
     ],
     links: [['/education', 'Education'], ['/live-projects', 'Live projects']],

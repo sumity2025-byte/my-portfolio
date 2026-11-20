@@ -11,7 +11,7 @@ export const PAGES = [
   { to: '/projects', label: 'Projects', tags: ['Dark store digitization', 'D2C growth engine', 'Should-cost model', 'Market entry'] },
   { to: '/proof', label: 'Proof', tags: ['43% → 92% adherence', '−43% variance', '−23% complaints', '+118% profitability'] },
   { to: '/skills', label: 'Skills', tags: ['Strategy', 'Growth', 'Operations', 'SQL', 'Superset', 'Tableau'] },
-  { to: '/education', label: 'Education', tags: ['IIM Calcutta', 'CAT 99.14%ile', 'NIT Kurukshetra', 'GATE AIR 2070'] },
+  { to: '/education', label: 'Education', tags: ['IIM Calcutta', 'CAT 99.64%ile', 'NIT Kurukshetra', 'GATE AIR 2070'] },
 ]
 
 export function Nav() {
@@ -36,7 +36,7 @@ export function Nav() {
       )}
     </nav>
     <div className="header-actions">
-      <a className="mono" href={SITE.resume} target="_blank" rel="noreferrer" aria-label="Open CV as PDF">CV ↗</a>
+      <a className="mono" href={SITE.resume} target="_blank" rel="noreferrer" aria-label="Open Strategy CV as PDF">Strategy CV ↗</a>
       <TLink className="btn btn-sm" to="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Get in touch</TLink>
     </div>
   </header>
@@ -64,7 +64,7 @@ export function Footer() {
           {chapterIds.map(id => <TLink key={id} to={'/' + id}>{chapterTitles[id]}</TLink>)}
         </div>
         <div><h2>Résumés</h2>
-          <a href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF)</a>
+          <a href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV (PDF)</a>
           <a href={SITE.productCv} target="_blank" rel="noreferrer">Product &amp; growth CV (PDF)</a>
         </div>
         <div><h2>Contact</h2>

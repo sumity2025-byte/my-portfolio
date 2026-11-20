@@ -20,7 +20,7 @@ const roles = [
   { ...ROLES[2], summary: 'A should-cost model across 15+ cost drivers identified a 10% procurement saving.' },
   { ...ROLES[3], summary: 'Growth operations for 80+ D2C brands generating over ₹100 crore a year.' },
   { ...ROLES[4], summary: 'Evaluated industrial equipment bids for ₹235 crore in planned capital expenditure.' },
-  { ...ROLES[5], period: 'Jul 2021 – Jan 2022', summary: 'Cut machine setup time from 12 hours to four while managing aerospace customer accounts.' },
+  { ...ROLES[5], summary: 'Cut machine setup time from 12 hours to four while managing aerospace customer accounts.' },
   { ...ROLES[6], summary: 'Traced a recurring leak on the production line and helped reduce stoppage from 42 minutes to zero.' },
 ]
 
@@ -77,7 +77,7 @@ export function HomeStory() {
     </div></section>
     <section className="cv-band career-index" id="experience"><div className="wrap">
       <header className="archive-head"><div><span className="cv-kicker">Industry experience</span><h2 className="cv-display">Experience<span>.</span></h2></div><TLink to="/work" className="cv-textlink">Work history <span aria-hidden>↗</span></TLink></header>
-      <p className="career-context">The CV records 37 months of full-time industry experience. This timeline also includes internships and international consulting work.</p>
+      <p className="career-context">The CV records 39 months of full-time industry experience. This timeline also includes internships and international consulting work.</p>
       <ol>{roles.map(role => <li key={role.company}><time>{role.period}</time><div><h3>{role.company}</h3><span>{role.title}</span></div><div className="career-contribution"><p>{role.summary}</p><details><summary>Role details</summary><ul>{role.points.map(point => <li key={point}>{point}</li>)}</ul></details></div></li>)}</ol>
     </div></section>
     <section id="skills" className="skills-ledger cv-band"><div className="wrap ledger-grid"><div><span className="cv-kicker">Capabilities</span><h2 className="cv-display">Skills<span>.</span></h2><TLink className="cv-textlink" to="/skills">Explore skills <span aria-hidden>↗</span></TLink></div>

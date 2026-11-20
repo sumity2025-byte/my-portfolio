@@ -6,8 +6,8 @@ import WorkFilm from '../components/WorkFilm'
 import { MarqueeMenu, WeightHover } from '../fx/Hover'
 import { MaskCursor } from '../fx/MaskCursor'
 import { TLink } from '../fx/PageTransition'
-import { Bands, Count } from '../fx/Scroll'
-import { BlockReveal, CharRise, LineRise, Scramble } from '../fx/Text'
+import { Bands } from '../fx/Scroll'
+import { BlockReveal, CharRise } from '../fx/Text'
 import { REDUCED } from '../lib/gsap'
 import './home.css'
 
@@ -19,7 +19,7 @@ class WarehouseFallback extends Component<{ children: ReactNode }, { unavailable
   render() { return this.state.unavailable ? null : this.props.children }
 }
 
-export default function Home({ ready }: { ready: boolean }) {
+export default function Home({ ready, replayIntro }: { ready: boolean; replayIntro: () => void }) {
   const hero = useRef<HTMLElement>(null)
   const routeProgress = useRef(0)
   const [visible, setVisible] = useState(false)
@@ -38,22 +38,37 @@ export default function Home({ ready }: { ready: boolean }) {
     return () => { observer.disconnect(); window.removeEventListener('scroll', follow) }
   }, [])
   return <>
-    <section ref={hero} className="hero warehouse-hero" aria-labelledby="home-title">
-      <div className="hero-3d" aria-hidden="true">
-        {ready && loadScene && <WarehouseFallback><Suspense fallback={null}><Warehouse running={visible} progressRef={routeProgress} /></Suspense></WarehouseFallback>}
+    <section ref={hero} className="profile-hero wrap" aria-labelledby="home-title">
+      <div className="profile-intro">
+        <TLink className="alma-mater" to="/education"><img src="/logos/iim-calcutta.png" width="204" height="52" alt="Indian Institute of Management Calcutta" /><span>IIM Calcutta MBA<br />Class of 2025</span></TLink>
+        {ready ? <WeightHover><h1 className="hero-title profile-name" id="home-title" aria-label="Sumit Yadav">
+          <CharRise onScroll={false}><span className="ht-line">Sumit</span></CharRise>
+          <CharRise onScroll={false} delay={.14}><span className="ht-line">Yadav<span className="o">.</span></span></CharRise>
+        </h1></WeightHover> : <h1 className="hero-title profile-name" id="home-title">Sumit<br />Yadav<span className="o">.</span></h1>}
+        <p className="profile-role">Strategy, growth &amp; operations</p>
+        <p className="profile-lede">At Blinkit, I turned what we learned on 50+ store visits into tools for 2,300+ dark stores. Before that, I helped 80+ online brands grow at Shopdeck.</p>
+        <div className="cta"><TLink to="/work" className="btn">Explore my work ↗</TLink><a href={SITE.resume} className="btn btn-ghost" target="_blank" rel="noreferrer">Strategy CV ↗</a></div>
       </div>
-      <div className="wrap hero-copy">
-        <Scramble><p className="eyebrow">Sumit Yadav · IIM Calcutta MBA</p></Scramble>
-        {ready ? <WeightHover><h1 className="hero-title" id="home-title" aria-label="I fix the way work gets done.">
-          <CharRise onScroll={false}><span className="ht-line">I fix <span data-weight="thin">the way</span></span></CharRise>
-          <CharRise onScroll={false} delay={.25}><span className="ht-line">work gets <span className="o">done.</span></span></CharRise>
-        </h1></WeightHover> : <h1 className="hero-title" id="home-title"><span className="ht-line">I fix the way</span><span className="ht-line">work gets <span className="o">done.</span></span></h1>}
-        {ready && <LineRise onScroll={false} delay={.6}><p className="lede">I’m a mechanical engineer working in product at Blinkit. At Shopdeck, I followed orders from an ad click to a customer’s doorstep. Today I work on the other half of that journey, designing how store teams receive stock, organise shelves and pick an order.</p></LineRise>}
-        <div className="cta"><TLink to="/work" className="btn">Explore my experience <span aria-hidden="true">↗</span></TLink><TLink to="/#about" className="btn btn-ghost">About me <span aria-hidden="true">↓</span></TLink></div>
+      <div className="hero-case">
+        <div className="case-label"><span>Blinkit</span><span>Store operations</span></div>
+        <div className="case-scene" aria-hidden="true">
+          {ready && loadScene && <WarehouseFallback><Suspense fallback={null}><Warehouse running={visible} progressRef={routeProgress} /></Suspense></WarehouseFallback>}
+        </div>
+        <TLink to="/work#blinkit" className="case-result"><div><span>Pick-path adherence</span><strong>43% <i>→</i> 92%</strong></div><b aria-hidden="true">↗</b></TLink>
+        <div className="case-control"><span>{REDUCED ? 'Dark-store picking route' : 'Scroll to trace the picking route'}</span>
+          {!REDUCED && <button type="button" onClick={replayIntro}>Replay Hello ↻</button>}
+        </div>
       </div>
-      <p className="hero-hint">Scroll to trace the orange pick route through the warehouse.</p>
     </section>
-    <section className="stats wrap" aria-label="Career in numbers">{STATS.map(s => <div className="stat" key={s.label}><b><Count to={s.n} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals} /></b><span>{s.label}</span></div>)}</section>
+    <section className="stats wrap" aria-label="Career in numbers">{STATS.map(s => <div className="stat" key={s.label}><b>{s.prefix}{s.n.toLocaleString('en-IN')}{s.suffix}</b><span>{s.label}</span></div>)}</section>
+    <section className="home-stories wrap" aria-labelledby="home-stories-title">
+      <h2 className="display-sm" id="home-stories-title">Beyond the store floor<span className="o">.</span></h2>
+      <div className="story-grid">
+        <TLink to="/work#shopdeck"><img src="/docs/WhatsApp_Image_2026-04-14_at_5_21_04_AM.jpeg" alt="The Shopdeck team’s handwritten marketing diagnostic" loading="lazy" /><small>Shopdeck · Growth</small><h3>How 80 consultants took 500+ clients live ↗</h3></TLink>
+        <TLink to="/awards"><img src="/work/evidence/competition-team.webp" alt="Our engineering team with its competition vehicle at NIT Kurukshetra" loading="lazy" /><small>NIT Kurukshetra · Engineering</small><h3>The quadricycle we built for Junkyard War ↗</h3></TLink>
+        <TLink to="/leadership"><img src="/work/evidence/festival-cad.webp" alt="The CAD lab and the Mechanical Society’s competition brief" loading="lazy" /><small>Techspardha · Leadership</small><h3>Behind a festival for 4,000 people ↗</h3></TLink>
+      </div>
+    </section>
     <MaskCursor
       front={<>Before I changed a pick list at Blinkit, I visited <em>more than 50 stores</em> to see how people used it.</>}
       hidden={<>Following the new route, pickers spent 10% less time per item.</>}
@@ -61,7 +76,7 @@ export default function Home({ ready }: { ready: boolean }) {
     <Bands a={['Engineering','Product','Growth','Operations']} b={['NIT Kurukshetra','Shiksha','IIM Calcutta','Blinkit']} />
     <AboutStory />
     <section className="working-files wrap" aria-labelledby="working-files-title">
-      <header><div><p className="eyebrow">Working documents</p><h2 id="working-files-title">Inside the work<span className="o">.</span></h2></div><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Read my CV ↗</a></header>
+      <header><div><p className="eyebrow">Working documents</p><h2 id="working-files-title">Inside the work<span className="o">.</span></h2></div><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV ↗</a></header>
       <WorkFilm ready={ready} />
       <div className="bio-links">{[
         ['Returns decision tree', '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg'],

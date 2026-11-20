@@ -1,8 +1,10 @@
 import { PageHead } from '../components/Chrome'
-import { ACHIEVE, CERTS, LIVE_PROJECTS, SITE } from '../data'
+import { ACHIEVE, LIVE_PROJECTS, SITE } from '../data'
+import { TLink } from '../fx/PageTransition'
 import { BlockReveal } from '../fx/Text'
 import { chapterTitles, type ChapterId } from '../chapters'
 import { ChapterEvidence } from '../components/ChapterEvidence'
+import CertificationArchive from '../components/CertificationArchive'
 import './chapter.css'
 
 type Entry = { title: string; paragraphs: string[] }
@@ -31,8 +33,8 @@ const chapters: Record<ChapterId, ChapterCopy> = {
     ],
   },
   'social-impact': {
-    lead: 'Over four years with Shiksha, I mentored children, organised workshops with local schools and NGOs, and helped raise the money for a community library.',
-    measure: '1,000+', caption: 'Hours spent mentoring children', context: 'Shiksha · 2017–2021', section: 'Teaching & fundraising',
+    lead: 'Over four years with Shiksha, I mentored children, organised workshops with local schools and NGOs, and helped raise the money for a community library. On campus, I represented students and organised cultural and technical events.',
+    measure: '1,000+', caption: 'Hours spent mentoring children', context: 'Community & campus life', section: 'Teaching & fundraising',
     entries: [
       { title: 'Mentoring', paragraphs: ['Over four years, I spent more than 1,000 hours mentoring over 100 children.'] },
       { title: 'School partnerships', paragraphs: ['We organised 15+ workshops with five schools and NGOs for more than 200 students. Attendance grew 24% year over year.'] },
@@ -41,7 +43,7 @@ const chapters: Record<ChapterId, ChapterCopy> = {
     ],
   },
   'live-projects': {
-    lead: 'My 2024 projects covered learning platforms and mentorship, from how a student first enrols to how a programme measures career readiness.',
+    lead: 'At Skilled Sapiens I worked on learning platforms, pricing and mentorship. My coursework alongside those projects covered consulting, strategic planning and product management.',
     measure: '+40%', caption: 'Participation in a tailored mentorship programme', context: 'Product & business management · 2024', section: 'Project outcomes',
     entries: [
       { title: 'Learning platforms', paragraphs: LIVE_PROJECTS.slice(0, 3) },
@@ -49,32 +51,28 @@ const chapters: Record<ChapterId, ChapterCopy> = {
       { title: 'Mentorship & readiness', paragraphs: LIVE_PROJECTS.slice(4) },
     ],
   },
-  certifications: {
-    lead: 'In 2024, I completed more than five product management certifications and more than five business management certifications, including two from Oxford.',
-    measure: '93%+', caption: 'Average score in product management certifications', context: 'Management education · 2024', section: 'Programmes & providers',
-    entries: CERTS.map(cert => ({ title: cert.title, paragraphs: [cert.by] })),
-  },
-  extracurricular: {
-    lead: 'In school and at NIT Kurukshetra, I represented classmates, organised cultural events and helped students have a say in the services they used every day.',
-    measure: '400+', caption: 'Students represented on the mess committee', context: 'School & campus life · 2016–2021', section: 'Student life',
-    entries: [
-      { title: 'Mess committee', paragraphs: ['As committee head from 2018 to 2021, I represented more than 400 students and achieved over 90% student satisfaction.'] },
-      { title: 'Cultural festival', paragraphs: ['In 2020–2021, I led a team of more than 15 students to organise two cultural festival events at NIT Kurukshetra. I also served on the sponsorship committee.'] },
-      { title: 'Technical festival', paragraphs: ['As festival convener in 2020, I grew social media outreach by 25% through Instagram.'] },
-      { title: 'Head boy', paragraphs: ['In 2016, I was selected as head boy from among more than 1,000 students and received the Student of the Year award.'] },
-    ],
-  },
 }
+
+const campusEntries: Entry[] = [
+  { title: 'Mess committee', paragraphs: ['As committee head from 2018 to 2021, I represented more than 400 students and achieved over 90% student satisfaction.'] },
+  { title: 'Cultural festival', paragraphs: ['In 2020–2021, I led a team of more than 15 students to organise two cultural festival events at NIT Kurukshetra. I also served on the sponsorship committee.'] },
+  { title: 'Technical festival', paragraphs: ['As festival convener in 2020, I grew social media outreach by 25% through Instagram.'] },
+  { title: 'Head boy', paragraphs: ['In 2016, I was selected as head boy from among more than 1,000 students and received the Student of the Year award.'] },
+]
 
 export default function Chapter({ id }: { id: ChapterId }) {
   const page = chapters[id]
   return <>
     <article className="cv-chapter-page">
       <PageHead eyebrow={page.context} title={chapterTitles[id]} lede={page.lead} />
+      {(id === 'live-projects' || id === 'social-impact') && <nav className="chapter-jumps wrap" aria-label="On this page">
+        {id === 'live-projects' ? <><TLink to="/live-projects#project-outcomes">Live projects ↓</TLink><TLink to="/live-projects#certifications">Certifications &amp; CVs ↓</TLink></>
+          : <><TLink to="/social-impact#shiksha">Shiksha ↓</TLink><TLink to="/social-impact#extracurricular">Extracurricular activities ↓</TLink></>}
+      </nav>}
       <figure className="chapter-figure wrap">
         <strong>{page.measure}</strong><figcaption>{page.caption}</figcaption>
       </figure>
-      <section className="chapter-evidence wrap">
+      <section className="chapter-evidence wrap" id={id === 'live-projects' ? 'project-outcomes' : id === 'social-impact' ? 'shiksha' : undefined}>
         <BlockReveal><h2 className="display-sm">{page.section}</h2></BlockReveal>
         <div className="chapter-entries">{page.entries.map(entry => <section key={entry.title}>
           <h3>{entry.title}</h3>
@@ -82,7 +80,11 @@ export default function Chapter({ id }: { id: ChapterId }) {
         </section>)}</div>
       </section>
       <ChapterEvidence id={id} />
-      <div className="wrap"><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Full résumé (PDF) ↗</a></div>
+      {id === 'social-impact' && <section className="chapter-evidence wrap" id="extracurricular">
+        <h2 className="display-sm">Extracurricular activities</h2>
+        <div className="chapter-entries">{campusEntries.map(item => <section key={item.title}><h3>{item.title}</h3><p>{item.paragraphs[0]}</p></section>)}</div>
+      </section>}
+      {id === 'live-projects' ? <CertificationArchive /> : <div className="wrap"><a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV (PDF) ↗</a></div>}
     </article>
   </>
 }

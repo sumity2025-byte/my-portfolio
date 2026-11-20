@@ -16,7 +16,7 @@ export default function Contact() {
       <p className="eyebrow">Sumit Yadav</p>
       <BlockReveal onScroll={false}><h1 className="display" id="contact-title">Get in <br />touch<span className="o">.</span></h1></BlockReveal>
       <p className="contact-note">If you’re hiring for a product, growth or operations role, I’d love to hear what your team is working on.</p>
-      <a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Read my résumé <ArrowUpRight size={17} aria-hidden="true" /></a>
+      <a className="btn btn-ghost" href={SITE.resume} target="_blank" rel="noreferrer">Read my Strategy CV <ArrowUpRight size={17} aria-hidden="true" /></a>
     </header>
     <ul className="contact-channels">{channels.map(({label,detail,href,icon: Icon,external}) =>
       <li key={label}><a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>

@@ -1,10 +1,8 @@
 export const chapterTitles = {
   awards: 'Awards & competitions',
   leadership: 'Positions of responsibility',
-  'social-impact': 'Social initiatives',
-  'live-projects': 'Live projects',
-  certifications: 'Certifications',
-  extracurricular: 'Extracurricular activities',
+  'social-impact': 'Social initiatives & extracurriculars',
+  'live-projects': 'Live projects & certifications',
 }
 export type ChapterId = keyof typeof chapterTitles
 export const chapterIds = Object.keys(chapterTitles) as ChapterId[]

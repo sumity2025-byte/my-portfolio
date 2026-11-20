@@ -6,7 +6,7 @@ import './work.css'
 
 export default function Work() {
   return <>
-    <PageHead eyebrow="Career history" title={<>Work experience<span className="o">.</span></>} />
+    <PageHead eyebrow="39 months of full-time experience · internships also listed" title={<>Work experience<span className="o">.</span></>} />
     <div className="work-layout wrap">
       <nav className="role-index" aria-label="Jump to a role">
         <p className="eyebrow">Jump to a role</p>

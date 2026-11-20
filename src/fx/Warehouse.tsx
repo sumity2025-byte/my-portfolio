@@ -72,9 +72,9 @@ function Warehouse({ progressRef }: { progressRef: React.MutableRefObject<number
     // camera drift from pointer and progress
     const px = state.pointer.x, py = state.pointer.y
     const ang = -0.55 + p * 0.5 + px * 0.12
-    const rad = 21
+    const rad = 26
     state.camera.position.set(Math.sin(ang) * rad, 17 - py * 1.2 - p * 3, Math.cos(ang) * rad)
-    state.camera.lookAt(-5, 0, 0)
+    state.camera.lookAt(0, 0, 0)
 
     tube.current.geometry.setDrawRange(0, Math.floor(total * p))
     const pt = path.getPointAt(Math.min(0.9999, p))
