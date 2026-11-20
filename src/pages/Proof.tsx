@@ -22,7 +22,7 @@ export default function Proof() {
     <>
       <DotGrid className="proof-hero">
         <div className="wrap">
-          <Scramble><p className="eyebrow">Proof, not promises · move your cursor</p></Scramble>
+          <Scramble><p className="eyebrow">Operating results</p></Scramble>
           <BlockReveal onScroll={false} delay={0.15}><h1 className="display">One pilot.<br /><span className="o">Doubled adherence.</span></h1></BlockReveal>
           <LineRise onScroll={false} delay={0.5}><p className="lede">One pilot became a chain-wide system. Here's what the work moved, across 2,300+ dark stores and 80+ D2C brands.</p></LineRise>
         </div>

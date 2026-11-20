@@ -1,31 +1,19 @@
 import { useLayoutEffect, useRef } from 'react'
 import './navigation.css'
 import { useLocation } from 'react-router-dom'
+import { chapterIds, chapterTitles } from '../chapters'
+import SplitGallery from '../fx/SplitGallery'
 import { SITE } from '../data'
 import { TLink } from '../fx/PageTransition'
 import { BlockReveal, LineRise, Scramble } from '../fx/Text'
 
-const pages = [
-  ['/work', 'Industry experience'],
-  ['/projects', 'Projects & papers'],
-  ['/proof', 'Proof'],
-  ['/skills', 'Skills'],
-  ['/education', 'Education'],
-]
-
-const cvSections = [
-  ['/#about', 'About'],
-  ['/#awards', 'Awards & competitions'],
-  ['/#leadership', 'Positions of responsibility'],
-  ['/#social-impact', 'Social initiatives'],
-  ['/#non-profit', 'Entrepreneurial & non-profit'],
-  ['/#live-projects', 'Live projects'],
-  ['/#certifications', 'Certifications'],
-  ['/#extracurricular', 'Extracurricular activities'],
+const archive = [
+  ['/work', 'Work'], ['/projects', 'Projects'], ['/proof', 'Proof'],
+  ['/skills', 'Skills'], ['/education', 'Education'],
 ]
 
 export function Nav() {
-  const { pathname, hash } = useLocation()
+  const { pathname } = useLocation()
   const header = useRef<HTMLElement>(null)
   useLayoutEffect(() => {
     const node = header.current!
@@ -36,34 +24,19 @@ export function Nav() {
     return () => { resize.disconnect(); document.documentElement.style.removeProperty('--portfolio-header-height') }
   }, [])
 
-  const compactLabels: Record<string, string> = {
-    '/work': 'Experience', '/projects': 'Projects', '/#leadership': 'POR', '/#awards': 'Awards',
-    '/#non-profit': 'Non-profit', '/#extracurricular': 'Extracurricular',
-  }
-  const link = ([path, label]: string[], compactOnly = false) =>
-    <TLink key={path} to={path} className={compactOnly ? 'cv-compact-only' : undefined} aria-label={label}
-      aria-current={pathname + hash === path ? (hash ? 'location' : 'page') : undefined}>
-      <span className="cv-long-label">{label}</span><span className="cv-short-label">{compactLabels[path] ?? label}</span>
-    </TLink>
-
   return <header className="cv-header" ref={header}>
-    <div className="cv-bar">
-      <TLink to="/" className="cv-brand">
-        <span className="cv-monogram" aria-hidden="true">SY</span>Sumit Yadav
-      </TLink>
-      <nav className="cv-primary" aria-label="Portfolio pages">
-        {pages.map(item => link(item))}
+    <div className="cv-masthead">
+      <TLink to="/" className="cv-brand" aria-label="Sumit Yadav, home">Sumit Yadav<span aria-hidden="true">.</span></TLink>
+      <nav className="cv-chapters" aria-label="Primary">
+        {chapterIds.map(id =>
+          <TLink key={id} to={'/' + id} aria-current={pathname === '/' + id ? 'page' : undefined}>{chapterTitles[id]}</TLink>
+        )}
       </nav>
-      <TLink to="/contact" className="cv-contact" aria-current={pathname === '/contact' ? 'page' : undefined}>
-        Contact <span aria-hidden="true">↗</span>
-      </TLink>
+      <div className="cv-utilities">
+        <a href={SITE.resume} target="_blank" rel="noreferrer" aria-label="Open CV as PDF">CV <span aria-hidden="true">↗</span></a>
+        <TLink to="/contact" className="cv-contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Contact</TLink>
+      </div>
     </div>
-    <div className="cv-shelf"><div className="cv-rail-frame">
-      <nav className="cv-rail" id="cv-section-links" aria-label="CV sections">
-        {pages.map(item => link(item, true))}
-        {cvSections.map(item => link(item))}
-      </nav>
-    </div></div>
   </header>
 }
 
@@ -87,11 +60,20 @@ export function NextPage({ to, label }: { to: string; label: string }) {
 }
 
 export function Footer() {
-  return (
-    <footer className="foot wrap">
-      <Scramble><span>{SITE.email}</span></Scramble>
-      <span>© 2026 Sumit Yadav · IIM Calcutta</span>
+  return <><section className="document-shelf wrap" aria-labelledby="document-shelf-title">
+    <div className="shelf-title"><h2 id="document-shelf-title">From my Shopdeck archive</h2><TLink to="/projects">All projects <span aria-hidden="true">↗</span></TLink></div>
+    <SplitGallery />
+  </section><footer className="portfolio-colophon"><div className="colophon-inner">
+    <div className="colophon-identity">
+      <TLink to="/" className="cv-brand">Sumit Yadav<span aria-hidden="true">.</span></TLink>
+      <a className="colophon-email" href={'mailto:' + SITE.email}>{SITE.email}</a>
+    </div>
+    <nav aria-label="Portfolio archive" className="colophon-archive">
+      {archive.map(([path, label]) => <TLink key={path} to={path}>{label}</TLink>)}
+    </nav>
+    <div className="colophon-end">
+      <span>© 2026 Sumit Yadav</span>
       <a href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-    </footer>
-  )
+    </div>
+  </div></footer></>
 }

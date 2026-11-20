@@ -75,9 +75,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       return
     }
     busy.current = true
-    // Page Transitions #1 from the Drive pack: the departing surface recedes
-    // as the destination rises through an inset mask. Native snapshots keep
-    // both pages visible without mounting two copies of the React routes.
+    // Keep the masthead in place while the next page opens through the film’s horizontal mask.
     const finish = () => {
       busy.current = false
       ScrollTrigger.refresh()
@@ -94,10 +92,11 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     const sheet = fallback.current
     if (!sheet) { navigate(to); finish(); return }
     gsap.timeline({ onComplete: finish })
-      .set(sheet, { visibility: 'visible', yPercent: 105 })
-      .to(sheet, { yPercent: 0, duration: .32, ease: 'power3.inOut' })
+      .set(sheet, { visibility: 'visible', clipPath: 'inset(49.9% 100% 49.9% 0%)' })
+      .to(sheet, { clipPath: 'inset(48% 0% 48% 0%)', duration: .19, ease: 'power2.in' })
+      .to(sheet, { clipPath: 'inset(0% 0% 0% 0%)', duration: .24, ease: 'power2.inOut' })
       .call(() => { revealAt = performance.now() + 160; navigate(to); scrollTop() })
-      .to(sheet, { yPercent: -105, duration: .42, ease: 'power3.inOut' })
+      .to(sheet, { clipPath: 'inset(0% 0% 100% 0%)', duration: .37, ease: 'power3.inOut' })
       .set(sheet, { visibility: 'hidden' })
   }, [navigate])
 

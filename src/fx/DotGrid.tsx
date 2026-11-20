@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { REDUCED } from '../lib/gsap'
 
 const CELL = 42
-const INK = new THREE.Color('#0f0f0f'), BLUE = new THREE.Color('#2668fd'), ORANGE = new THREE.Color('#fd4400')
+const INK = new THREE.Color('#181b18'), BLUE = new THREE.Color('#435f54'), ORANGE = new THREE.Color('#983626')
 
 function Grid({ mouse }: { mouse: React.MutableRefObject<{ x: number; y: number; on: boolean }> }) {
   const { size } = useThree()
