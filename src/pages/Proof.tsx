@@ -21,9 +21,9 @@ export default function Proof() {
     <>
       <DotGrid className="proof-hero">
         <div className="wrap">
-          <Scramble><p className="eyebrow">Operating results</p></Scramble>
+          <Scramble><p className="eyebrow">Product & growth results</p></Scramble>
           <BlockReveal onScroll={false} delay={0.15}><h1 className="display">One pilot.<br /><span className="o">Doubled adherence.</span></h1></BlockReveal>
-          <LineRise onScroll={false} delay={0.5}><p className="lede">One pilot became a chain-wide system. Here's what the work moved, across 2,300+ dark stores and 80+ D2C brands.</p></LineRise>
+          <LineRise onScroll={false} delay={0.5}><p className="lede">Changing the pick sequence at Blinkit helped teams follow a faster route. At Shopdeck, diagnosing where brands lost margin helped improve profitability across 42 businesses.</p></LineRise>
         </div>
       </DotGrid>
       <section className="wrap proof-bars" ref={bars}>

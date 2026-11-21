@@ -2,7 +2,7 @@
 // normally on the left while a sticky panel on the right wipes from one project to the next and
 // the section's background tint follows along. Scrubbed to the scrollbar, so it never runs ahead of you.
 import { useRef } from 'react'
-import { gsap, REDUCED, useGSAP } from '../lib/gsap'
+import { gsap, useGSAP } from '../lib/gsap'
 
 export type ShowcaseItem = { tag: string; title: string; body: string; metrics: string[][]; tone: 'orange' | 'blue' | 'yellow' | 'ink' }
 const TINT = { orange: '#fff0e8', blue: '#eaf0ff', yellow: '#fff6dc', ink: '#ecebe6' }
@@ -20,9 +20,8 @@ export function Showcase({ items }: { items: ShowcaseItem[] }) {
     const mm = gsap.matchMedia()
     gsap.set(sec, { backgroundColor: TINT[items[0].tone] })
 
-    mm.add('(min-width: 861px)', () => {
+    mm.add('(min-width: 861px) and (prefers-reduced-motion: no-preference)', () => {
       gsap.set(panels, { clipPath: 'inset(0% 0% 0% 0%)' })
-      if (REDUCED) return
       // One step per project. Each step holds, wipes the current panel up, then holds again,
       // so the swap lands while the text between two projects is passing the middle of the screen.
       const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top top', end: 'bottom bottom', scrub: 0.6 } })

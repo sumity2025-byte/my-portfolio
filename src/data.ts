@@ -11,7 +11,7 @@ export const SITE = {
 export const STATS = [
   { n: 2300, suffix: '+', label: 'Dark stores impacted' },
   { n: 100, prefix: '₹', suffix: ' Cr+', label: 'D2C revenue a year' },
-  { n: 15, suffix: '+', label: 'Pilots run in stores' },
+  { n: 235, prefix: '₹', suffix: ' Cr+', label: 'Capital proposals evaluated' },
   { n: 39, suffix: '', label: 'Months in full-time roles' },
 ]
 
@@ -65,21 +65,78 @@ export const ROLES: Role[] = [
   ]},
 ]
 
-export const PROJECTS: { tag: string; title: string; body: string; metrics: string[][]; featured?: boolean; tone: 'orange' | 'blue' | 'yellow' | 'ink' }[] = [
-  { tone: 'orange', tag: 'Blinkit · 2025', title: 'Dark store digitization across 2,300+ locations',
-    body: "End-to-end overhaul of Blinkit's dark store infrastructure: location intelligence, FEFO logic, spatial pick-path optimization and execution dashboards. A fragmented manual system became a digitized operating model.",
-    metrics: [['100%','digitized'],['−43%','inventory variance'],['+18%','GMV per sq. ft.'],['1.5×','space utilisation'],['90%','replenishment accuracy']], featured: true },
-  { tone: 'blue', tag: 'Shopdeck', title: 'D2C growth engine, 80+ brands', body: 'Inherited 80+ D2C accounts and built the growth system: funnel diagnosis, live dashboards and a standard go-live SOP. 0 → 3M orders a year.', metrics: [['₹100 Cr+','revenue / yr'],['+118%','profitability'],['20+','dashboards']] },
-  { tone: 'ink', tag: 'Adani', title: '₹235 Cr+ capex evaluation', body: 'Single point of coordination across 15+ global suppliers and 200+ technical documents, turning a fragmented capex decision into a defensible recommendation.', metrics: [['₹235 Cr+','capex'],['15+','suppliers'],['−25%','logistics cost']] },
-  { tone: 'yellow', tag: 'Accenture', title: 'Should-cost for strategic procurement', body: 'Five vendor bids, 50+ metrics. A bottom-up should-cost model replaced gut-feel negotiation with a defensible 10% saving.', metrics: [['10%','saved'],['5','vendors'],['50+','metrics']] },
-  { tone: 'blue', tag: 'X-Culture', title: 'Global market entry strategy', body: 'Led a virtual global team through GTM and market entry for an FMCG client: benchmarking, segmentation and pricing.', metrics: [['Top 9.1%','of 6,500+'],['4.9/5','peer rating']] },
-  { tone: 'orange', tag: 'UPS Lakshmi', title: 'Aerospace and industrial sales', body: 'Owned 9+ key accounts including Honeywell and Boeing while cutting costs 25% and setup time 67% with lean methods.', metrics: [['₹5 Cr','a month'],['+60%','Honeywell'],['−67%','setup time']] },
+type CaseVisual =
+  | { type: 'warehouse' }
+  | { type: 'photo' | 'document'; src: string; alt: string }
+  | { type: 'figures'; label: string; items: [string, string][] }
+
+export type Project = {
+  tag: string
+  discipline: string
+  title: string
+  body: string
+  metrics: [string, string][]
+  tone: 'orange' | 'blue' | 'yellow' | 'ink'
+  to: string
+  visual: CaseVisual
+}
+
+export const PROJECTS: Project[] = [
+  {
+    tag: 'Blinkit', discipline: 'Product discovery', tone: 'orange', to: '/work#blinkit',
+    title: 'Which pick list should Blinkit roll out?',
+    body: 'After visiting 50+ stores, I piloted a change to the order of items on the pick list. Pickers followed the planned route more often and spent 10% less time per item.',
+    metrics: [['43% → 92%', 'Pick-path adherence'], ['+7.5%', 'Throughput'], ['2,300+', 'Stores digitised'], ['−43%', 'Inventory variance']],
+    visual: { type: 'warehouse' },
+  },
+  {
+    tag: 'Shopdeck', discipline: 'Growth strategy', tone: 'blue', to: '/work#shopdeck',
+    title: 'Finding where merchants lost margin',
+    body: 'I traced returns and ad performance across 80+ brands, then gave consultants a decision tree to diagnose each merchant’s drop in profitability.',
+    metrics: [['+118%', 'Profitability across 42 brands'], ['₹100 Cr+', 'Annual portfolio revenue'], ['3M', 'Orders per year']],
+    visual: { type: 'photo', src: '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg', alt: 'Handwritten Shopdeck decision tree for diagnosing returns' },
+  },
+  {
+    tag: 'Accenture', discipline: 'Commercial strategy', tone: 'yellow', to: '/work#accenture',
+    title: 'What should mine drilling cost?',
+    body: 'I compared five international bids and built a bottom-up model for underground drilling. Breaking down the price exposed the cost drivers the client could negotiate.',
+    metrics: [['10%', 'Potential budget saving'], ['5', 'Vendor proposals'], ['50+', 'Bid criteria'], ['15+', 'Cost drivers']],
+    visual: { type: 'figures', label: 'Building the should-cost model', items: [['5', 'International bids'], ['50+', 'Bid criteria'], ['15+', 'Cost drivers']] },
+  },
+  {
+    tag: 'X-Culture', discipline: 'Market entry', tone: 'blue', to: '/work#x-culture',
+    title: 'Taking a consumer brand into a new market',
+    body: 'I led market-entry planning for a consumer goods client. Our global team benchmarked competitors, compared pricing and recommended how the product should change for the new market.',
+    metrics: [['Top 40%', 'Team report among 1,000+ teams'], ['4.9/5', 'Individual peer rating'], ['5.2/7', 'Team report score']],
+    visual: { type: 'document', src: '/work/evidence/x-culture-certificate.webp', alt: 'X-Culture international business consulting certificate for the client expansion project' },
+  },
+  {
+    tag: 'Adani', discipline: 'Capital investment', tone: 'ink', to: '/work#adani',
+    title: 'Comparing bids for two plant investments',
+    body: 'I evaluated proposals from 15+ international suppliers. I consolidated more than 200 technical documents into a bid report so the team could compare suppliers on a common basis.',
+    metrics: [['₹235 Cr+', 'Capital expenditure evaluated'], ['15+', 'International suppliers'], ['200+', 'Technical documents']],
+    visual: { type: 'figures', label: 'Capital proposals reviewed', items: [['₹180 Cr+', 'Materials handling'], ['₹55 Cr+', 'Steam dryer']] },
+  },
+  {
+    tag: 'UPS Lakshmi', discipline: 'B2B growth', tone: 'orange', to: '/work#ups-lakshmi',
+    title: 'Growing an aerospace account',
+    body: 'I managed industrial accounts including Honeywell and Boeing. Honeywell sales reached ₹80 lakh while on-time delivery exceeded 95% and the customer recorded zero rejections.',
+    metrics: [['+60%', 'Honeywell sales growth'], ['₹5 Cr', 'Record monthly sales across accounts'], ['9+', 'Accounts managed']],
+    visual: { type: 'figures', label: 'Honeywell account performance', items: [['₹80 lakh', 'Sales'], ['95%+', 'On-time delivery'], ['0', 'Rejections']] },
+  },
+  {
+    tag: 'Techspardha', discipline: 'Team leadership', tone: 'yellow', to: '/leadership',
+    title: 'Funding ten events on one festival budget',
+    body: 'As Mechanical Society secretary, I coordinated five teams and prioritised spending across ten events. We cut expenses by 25% for a festival attended by more than 4,000 people.',
+    metrics: [['−25%', 'Festival expenses'], ['100+', 'Society members'], ['4,000+', 'Attendees']],
+    visual: { type: 'document', src: '/work/evidence/techspardha-budget.webp', alt: 'Techspardha budget showing event prizes and committee costs' },
+  },
 ]
 
 export const SKILLS = [
   { name: 'Strategy', tone: 'orange' as const, items: ['Issue trees', 'MECE', 'Market sizing', 'Should-cost', 'Benchmarking', 'Scenarios', 'Business cases'] },
   { name: 'Growth', tone: 'blue' as const, items: ['GTM', 'Unit economics', 'Pricing', 'Funnel diagnosis', 'P&L', 'Cohorts', 'LTV/CAC', 'Retention'] },
-  { name: 'Operations', tone: 'yellow' as const, items: ['Pilot scaling', 'Cross-functional', 'Spatial analytics', 'Inventory', 'Process design', 'OKR/KPI'] },
+  { name: 'Product', tone: 'yellow' as const, items: ['Field research', 'Product requirements', 'Prototyping', 'Prioritisation', 'Pilot design', 'Product metrics', 'Rollout decisions'] },
 ]
 export const TOOLS = ['Advanced Excel', 'SQL', 'Superset', 'Tableau', 'Asana', 'Figma', 'Google Analytics']
 export const CERTS = [

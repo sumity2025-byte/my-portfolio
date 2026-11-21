@@ -7,8 +7,8 @@ import { BlockReveal, Scramble } from '../fx/Text'
 export default function Skills() {
   return (
     <>
-      <PageHead eyebrow="Capabilities" title={<>Built in the field. <span className="o">Used daily.</span></>}
-        lede="Three toolkits I reach for most. Scroll and the cards turn over." />
+      <PageHead eyebrow="Capabilities" title={<>Strategy, growth <span className="o">&amp; product.</span></>}
+        lede="I use commercial models to compare investments, funnel analysis to diagnose growth, and field research to decide what to build." />
       <SkillCards title={<h2 className="display-sm">What I bring</h2>} skills={SKILLS} />
       <section className="wrap tools">
         <BlockReveal><h2 className="display-sm">Tools</h2></BlockReveal>

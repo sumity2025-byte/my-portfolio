@@ -8,9 +8,9 @@ import { BlockReveal, LineRise, Scramble } from '../fx/Text'
 
 export const PAGES = [
   { to: '/work', label: 'Experience', tags: ['Blinkit', '2,300+ dark stores', 'Shopdeck', '₹100 Cr+ a year', 'Adani', '₹235 Cr+ capex', 'Accenture'] },
-  { to: '/projects', label: 'Projects', tags: ['Dark store digitization', 'D2C growth engine', 'Should-cost model', 'Market entry'] },
+  { to: '/projects', label: 'Projects', tags: ['Dark store digitization', 'D2C profitability', 'Should-cost model', 'Market entry'] },
   { to: '/proof', label: 'Proof', tags: ['43% → 92% adherence', '−43% variance', '−23% complaints', '+118% profitability'] },
-  { to: '/skills', label: 'Skills', tags: ['Strategy', 'Growth', 'Operations', 'SQL', 'Superset', 'Tableau'] },
+  { to: '/skills', label: 'Skills', tags: ['Strategy', 'Growth', 'Product', 'SQL', 'Superset', 'Tableau'] },
   { to: '/education', label: 'Education', tags: ['IIM Calcutta', 'CAT 99.64%ile', 'NIT Kurukshetra', 'GATE AIR 2070'] },
 ]
 

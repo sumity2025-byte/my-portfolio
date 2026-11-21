@@ -24,26 +24,12 @@
 .profile-hero { display:grid; grid-template-columns:minmax(0,.93fr) minmax(0,1.07fr); gap:clamp(24px,5vw,80px); align-items:center; padding-block:clamp(32px,4vw,68px); }
 .alma-mater { display:inline-flex; gap:14px; align-items:center; }
 .alma-mater img { width:clamp(148px,15vw,204px); height:auto; mix-blend-mode:multiply; }
-.alma-mater span,.case-label,.case-control,.case-result span,.story-grid small { font:500 .74rem/1.45 var(--mono); text-transform:uppercase; letter-spacing:.055em; }
+.alma-mater span,.story-grid small { font:500 .74rem/1.45 var(--mono); text-transform:uppercase; letter-spacing:.055em; }
 .alma-mater span { border-left:1px solid var(--line); padding-left:14px; color:var(--ink2); }
 .profile-hero .profile-name { font-size:clamp(6.3rem,11.4vw,11rem); line-height:.86; margin-block:clamp(20px,2vw,34px); }
 .profile-role { font-size:clamp(1.18rem,1.8vw,1.65rem); font-weight:650; letter-spacing:-.03em; }
 .profile-lede { max-width:45ch; margin-top:9px; line-height:1.5; color:var(--ink2); }
 .profile-intro .cta { margin-top:23px; }
-.hero-case { border:1px solid var(--line); background:#eeebe2; position:relative; }
-.case-label,.case-control { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px clamp(12px,2vw,25px); }
-.case-label { border-bottom:1px solid var(--line); }
-.case-label span:first-child { display:inline-flex; align-items:center; gap:8px; }
-.case-label span:first-child::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--orange); }
-.case-scene { height:clamp(230px,23vw,380px); background:var(--bg) url('/work/warehouse-overview.webp') center/cover no-repeat; }
-.case-scene:has(canvas) { background:var(--bg); }
-.case-result { padding:13px clamp(12px,2vw,25px); display:flex; justify-content:space-between; align-items:center; background:var(--ink); color:var(--bg); }
-.case-result strong { display:block; margin-top:5px; font:850 clamp(2.8rem,4vw,4.5rem)/.98 var(--display); }
-.case-result i { color:#ff733e; font-style:normal; }
-.case-result b { font:400 1.5rem var(--sans); border:1px solid #898782; border-radius:50%; width:39px; height:39px; display:grid; place-items:center; }
-.case-result:is(:hover,:focus-visible) b { background:var(--bg); color:var(--ink); }
-.case-control { font-size:.68rem; letter-spacing:0; }
-.case-control button { padding:4px 0; border:0; background:transparent; color:var(--ink); font:inherit; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
 .home-stories { padding-block:clamp(46px,6vw,94px) 15px; }
 .story-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(16px,2.5vw,38px); }
 .story-grid img { display:block; width:100%; aspect-ratio:1.6; object-fit:cover; background:var(--bg2); }
@@ -53,8 +39,6 @@
 @media(max-width:740px) {
   .profile-hero { grid-template-columns:minmax(0,1fr); gap:24px; padding-block:24px; }
   .profile-hero .profile-name { font-size:clamp(4.6rem,15vw,7rem); display:flex; flex-wrap:wrap; column-gap:.15em; line-height:.94; margin-block:15px 12px; }
-  .case-scene { height:clamp(165px,45vw,275px); }
   .profile-intro .btn { font-size:.88rem; padding:10px 14px; }
   .story-grid { grid-template-columns:1fr; gap:24px; }
-  .case-control { flex-wrap:wrap; }
 }

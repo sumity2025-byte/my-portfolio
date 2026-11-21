@@ -32,7 +32,7 @@ function Shell() {
   const previousSection = loc.pathname === '/' ? oldSections[loc.hash.slice(1)] : undefined
   useEffect(() => {
     const title = pageTitles[loc.pathname + loc.hash] ?? pageTitles[loc.pathname]
-    document.title = title && title !== 'Home' ? title + ' · Sumit Yadav' : 'Sumit Yadav · Product, strategy & operations'
+    document.title = title && title !== 'Home' ? title + ' · Sumit Yadav' : 'Sumit Yadav · Strategy, growth & product'
   }, [loc.pathname, loc.hash])
   const done = useCallback(() => setPlayIntro(false), [])
   useEffect(() => {
