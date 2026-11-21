@@ -1,22 +1,38 @@
-import { useLayoutEffect, useRef } from 'react'
-import './navigation.css'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Check, Copy, Download, Mail, Menu, MessageCircle, Phone, X } from 'lucide-react'
+import './navigation.css'
 import { chapterIds, chapterTitles } from '../chapters'
 import { SITE } from '../data'
 import { TLink } from '../fx/PageTransition'
-import { BlockReveal, LineRise, Scramble } from '../fx/Text'
+import { lockScroll } from '../lib/gsap'
 
-export const PAGES = [
-  { to: '/work', label: 'Experience', tags: ['Blinkit', '2,300+ dark stores', 'Shopdeck', '₹100 Cr+ a year', 'Adani', '₹235 Cr+ capex', 'Accenture'] },
-  { to: '/projects', label: 'Projects', tags: ['Dark store digitization', 'D2C profitability', 'Should-cost model', 'Market entry'] },
-  { to: '/proof', label: 'Proof', tags: ['43% → 92% adherence', '−43% variance', '−23% complaints', '+118% profitability'] },
-  { to: '/skills', label: 'Skills', tags: ['Strategy', 'Growth', 'Product', 'SQL', 'Superset', 'Tableau'] },
-  { to: '/education', label: 'Education', tags: ['IIM Calcutta', 'CAT 99.64%ile', 'NIT Kurukshetra', 'GATE AIR 2070'] },
+const PORTFOLIO_LINKS = [
+  { to: '/work', label: 'Work experience' },
+  { to: '/#cases', label: 'Cases' },
+  { to: '/projects', label: 'Projects' },
+  { to: '/proof', label: 'Proof & results' },
+  { to: '/skills', label: 'Skills' },
+  { to: '/education', label: 'Education' },
+  { to: '/story', label: 'My story' },
+  { to: '/contact', label: 'Contact' },
 ]
+const ACTIVITY_LINKS = chapterIds.map(id => ({ to: '/' + id, label: chapterTitles[id] }))
+
+function MenuLinks({ links }: { links: { to: string; label: string }[] }) {
+  const { pathname } = useLocation()
+  return <ul>{links.map(link =>
+    <li key={link.to}><TLink to={link.to} aria-current={link.to === pathname ? 'page' : undefined}>{link.label}<span aria-hidden="true">→</span></TLink></li>
+  )}</ul>
+}
 
 export function Nav() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const header = useRef<HTMLElement>(null)
+  const button = useRef<HTMLButtonElement>(null)
+  const panel = useRef<HTMLElement>(null)
+  const [open, setOpen] = useState(false)
+
   useLayoutEffect(() => {
     const node = header.current!
     const measure = () => document.documentElement.style.setProperty('--portfolio-header-height', node.offsetHeight + 'px')
@@ -26,56 +42,101 @@ export function Nav() {
     return () => { resize.disconnect(); document.documentElement.style.removeProperty('--portfolio-header-height') }
   }, [])
 
-  return <header className="nav cv-header" ref={header}>
-    <TLink to="/" className="brand" aria-label="Sumit Yadav, home">Sumit Yadav<i aria-hidden="true">●</i></TLink>
-    <nav aria-label="Primary">
-      <TLink to="/#about" className={pathname === '/' ? 'active' : undefined} aria-current={pathname === '/' ? 'location' : undefined}>About</TLink>
-      <TLink to="/work" className={pathname === '/work' ? 'active' : undefined} aria-current={pathname === '/work' ? 'page' : undefined}>Work experience</TLink>
-      {chapterIds.map(id =>
-        <TLink key={id} to={'/' + id} className={pathname === '/' + id ? 'active' : undefined} aria-current={pathname === '/' + id ? 'page' : undefined}>{chapterTitles[id]}</TLink>
-      )}
+  useEffect(() => { setOpen(false) }, [pathname, hash])
+
+  useEffect(() => {
+    if (!open) return
+    lockScroll(true)
+    panel.current?.querySelector<HTMLElement>('a')?.focus({ preventScroll: true })
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      button.current?.focus()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => { lockScroll(false); document.removeEventListener('keydown', onKey) }
+  }, [open])
+
+  return <header className="site-header" ref={header}>
+    <TLink to="/" className="brand">
+      <span className="brand-name">Sumit Yadav</span>
+      <span className="brand-school">IIM Calcutta</span>
+    </TLink>
+    <nav className="primary-nav" aria-label="Primary">
+      <TLink to="/work" aria-current={pathname === '/work' ? 'page' : undefined}>Work</TLink>
+      <TLink to="/#cases">Cases</TLink>
+      <a className="wide-only" href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV</a>
+      <TLink className="wide-only nav-contact" to="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Contact</TLink>
+      <button ref={button} className="menu-button" type="button" aria-expanded={open} aria-controls="site-menu"
+        aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(value => !value)}>
+        {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+      </button>
     </nav>
-    <div className="header-actions">
-      <a className="mono" href={SITE.resume} target="_blank" rel="noreferrer" aria-label="Open Strategy CV as PDF">Strategy CV ↗</a>
-      <TLink className="btn btn-sm" to="/contact" aria-current={pathname === '/contact' ? 'page' : undefined}>Get in touch</TLink>
-    </div>
+    <nav id="site-menu" className="site-menu" aria-label="All pages" ref={panel} hidden={!open} data-lenis-prevent
+      onClick={event => { if ((event.target as HTMLElement).closest('a')) setOpen(false) }}>
+      <div className="site-menu-inner">
+        <section><h2>Portfolio</h2><MenuLinks links={PORTFOLIO_LINKS} /></section>
+        <section><h2>Activities &amp; recognition</h2><MenuLinks links={ACTIVITY_LINKS} /></section>
+        <section><h2>Résumés</h2>
+          <div className="menu-cvs">
+            <a className="menu-cv-primary" href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV</a>
+            <a href={SITE.productCv} target="_blank" rel="noreferrer">Product &amp; Growth CV</a>
+          </div>
+        </section>
+      </div>
+    </nav>
   </header>
 }
 
+/** Always-visible contact actions at the bottom of the screen on phones and tablets. */
+export function ContactBar() {
+  return <nav className="contact-bar" aria-label="Quick contact">
+    <a className="contact-bar-cv" href={SITE.resume} target="_blank" rel="noreferrer"><Download size={18} aria-hidden="true" />CV<span className="sr-only"> (Strategy, PDF)</span></a>
+    <a href={'tel:' + SITE.phone}><Phone size={20} aria-hidden="true" />Call</a>
+    <a href={SITE.whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={20} aria-hidden="true" />WhatsApp</a>
+    <a href={'mailto:' + SITE.email}><Mail size={20} aria-hidden="true" />Email</a>
+  </nav>
+}
+
+function CopyEmail() {
+  const [copied, setCopied] = useState(false)
+  useEffect(() => {
+    if (!copied) return
+    const timer = window.setTimeout(() => setCopied(false), 2000)
+    return () => window.clearTimeout(timer)
+  }, [copied])
+  return <>
+    <button className="copy-email" type="button" aria-label="Copy email address" onClick={() => {
+      navigator.clipboard?.writeText(SITE.email).then(() => setCopied(true), () => {})
+    }}>{copied ? <Check size={18} aria-hidden="true" /> : <Copy size={18} aria-hidden="true" />}</button>
+    <span className="sr-only" aria-live="polite">{copied ? 'Email address copied' : ''}</span>
+  </>
+}
+
 export function PageHead({ eyebrow, title, lede }: { eyebrow: string; title: React.ReactNode; lede?: string }) {
-  return (
-    <header className="page-head wrap">
-      <Scramble><p className="eyebrow">{eyebrow}</p></Scramble>
-      <BlockReveal onScroll={false} delay={0.15}><h1 className="display">{title}</h1></BlockReveal>
-      {lede && <LineRise onScroll={false} delay={0.5}><p className="lede">{lede}</p></LineRise>}
-    </header>
-  )
+  return <header className="page-head wrap">
+    <p className="eyebrow">{eyebrow}</p>
+    <h1 className="display">{title}</h1>
+    {lede && <p className="lede">{lede}</p>}
+  </header>
 }
 
 export function Footer() {
   return <footer className="site-footer">
     <div className="wrap">
-      <nav className="footer-directory" aria-label="Portfolio directory">
-        <div><h2>Portfolio</h2>
-          <TLink to="/#about">About</TLink>
-          {PAGES.map(page => <TLink key={page.to} to={page.to}>{page.to === '/work' ? 'Work experience' : page.label}</TLink>)}
-        </div>
-        <div><h2>Activities &amp; recognition</h2>
-          {chapterIds.map(id => <TLink key={id} to={'/' + id}>{chapterTitles[id]}</TLink>)}
-        </div>
-        <div><h2>Résumés</h2>
-          <a href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV (PDF)</a>
-          <a href={SITE.productCv} target="_blank" rel="noreferrer">Product &amp; growth CV (PDF)</a>
-        </div>
-        <div><h2>Contact</h2>
-          <TLink to="/contact">Get in touch</TLink>
-          <a href={'mailto:' + SITE.email}>Email</a>
-          <a href={'sms:' + SITE.phone}>Text message</a>
-          <a href={'tel:' + SITE.phone}>Call</a>
-          <a href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
-        </div>
+      <h2 className="footer-title">Let’s talk<span className="o">.</span></h2>
+      <p className="footer-note">Open to strategy, consulting, product and growth roles.</p>
+      <div className="footer-email"><a href={'mailto:' + SITE.email}>{SITE.email}</a><CopyEmail /></div>
+      <p className="footer-phone"><a href={'tel:' + SITE.phone}>{SITE.phoneLabel}</a> · <a href={SITE.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a></p>
+      <div className="footer-actions">
+        <a className="footer-cv" href={SITE.resume} target="_blank" rel="noreferrer">Strategy CV</a>
+        <a href={SITE.productCv} target="_blank" rel="noreferrer">Product &amp; Growth CV</a>
+        <a href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a>
+      </div>
+      <nav className="footer-links" aria-label="Portfolio directory">
+        {[...PORTFOLIO_LINKS, ...ACTIVITY_LINKS].map(link => <TLink key={link.to} to={link.to}>{link.label}</TLink>)}
       </nav>
-      <div className="footer-signature"><TLink to="/" className="brand" aria-label="Sumit Yadav, home">Sumit Yadav<i aria-hidden="true">●</i></TLink><span>© 2026 Sumit Yadav</span></div>
+      <p className="footer-signature">© 2026 Sumit Yadav</p>
     </div>
   </footer>
 }
