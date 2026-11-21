@@ -4,19 +4,30 @@ export const SITE = {
   phone: '+919728502596',
   phoneLabel: '+91 97285 02596',
   linkedin: 'https://www.linkedin.com/in/sumit-yadav1/',
+  whatsapp: 'https://wa.me/919728502596',
   resume: '/docs/Strategy-CV.pdf',
   productCv: './docs/Sumit_Yadav_Product.pdf',
 }
 
-export const STATS = [
-  { n: 2300, suffix: '+', label: 'Dark stores impacted' },
-  { n: 100, prefix: '₹', suffix: ' Cr+', label: 'D2C revenue a year' },
-  { n: 235, prefix: '₹', suffix: ' Cr+', label: 'Capital proposals evaluated' },
-  { n: 39, suffix: '', label: 'Months in full-time roles' },
+/** The four numbers in the home page's opening section. */
+export const HERO_STATS: [string, string][] = [
+  ['2,300+', 'dark stores digitised at Blinkit'],
+  ['₹100 Cr+', 'D2C revenue a year at Shopdeck'],
+  ['₹235 Cr+', 'capital proposals evaluated at Adani'],
+  ['99.64%ile', 'CAT 2022, of 200,000+'],
+]
+
+/** Employer marks shown under the name. A missing `src` renders the name as a wordmark. */
+export const EMPLOYERS: { name: string; src?: string; width: number; height: number }[] = [
+  { name: 'Blinkit', src: '/logos/blinkit.svg', width: 28, height: 28 },
+  { name: 'Accenture', src: '/logos/accenture.svg', width: 46, height: 24 },
+  { name: 'Shopdeck', width: 0, height: 0 },
+  { name: 'Adani', src: '/logos/adani.svg', width: 51, height: 18 },
+  { name: 'Honda', src: '/logos/honda.svg', width: 102, height: 13 },
 ]
 
 export type Role = {
-  id: string; company: string; title: string; period: string; months: string; points: string[]; key: string; keyLabel: string
+  id: string; company: string; /** Shorter name for one-line lists. */ short?: string; title: string; period: string; months: string; points: string[]; key: string; keyLabel: string
 }
 export const ROLES: Role[] = [
   { id: 'blinkit', company: 'Blinkit', key: '2,300+', keyLabel: 'dark stores', title: 'Generalist | Strategy, Growth & Operations', period: 'May 2025 – Present', months: 'Current role', points: [
@@ -30,12 +41,12 @@ export const ROLES: Role[] = [
     "Raised replenishment accuracy to 90% by integrating digitized bin capacities with replenishment logic, removing manual inputs.",
     "Led a 10+ member cross-functional team in 15+ pilots; benchmarked KPIs to select and scale winning solutions pan-India.",
   ]},
-  { id: 'x-culture', company: 'X-Culture International Consulting Program', key: 'Top 5%', keyLabel: 'peer-rated, of 6,500+', title: 'International Business Consultant', period: 'Aug – Dec 2024', months: '5 mo', points: [
+  { id: 'x-culture', company: 'X-Culture International Consulting Program', short: 'X-Culture', key: 'Top 5%', keyLabel: 'peer-rated, of 6,500+', title: 'International Business Consultant', period: 'Aug – Dec 2024', months: '5 mo', points: [
     "Led GTM and market entry for an intl. FMCG client; covered competitive benchmarking, pricing, and product adaptation plan.",
     "Ranked Top 5% on peer evaluations (4.9/5) among 6,500+ global students; rated 5.0/5 on effort, IP, and technical skills.",
     "Ranked Top 9.1% individually among 6,500+ students; consulting report scored 5.2/7, Top 40% of 1,000+ global teams.",
   ]},
-  { id: 'accenture', company: 'Accenture Strategy and Consulting', key: '10%', keyLabel: 'potential budget saving', title: 'Strategy Analyst Intern', period: 'May – Jun 2024', months: '2 mo', points: [
+  { id: 'accenture', company: 'Accenture Strategy and Consulting', short: 'Accenture Strategy', key: '10%', keyLabel: 'potential budget saving', title: 'Strategy Analyst Intern', period: 'May – Jun 2024', months: '2 mo', points: [
     "Scrutinized 5 intl. vendor proposals, leveraging 50+ metrics to curate a structured bid evaluation report for the client.",
     "Designed a should-cost model; identified actionable cost levers across 15+ cost drivers for 10% budget optimization.",
   ]},
@@ -46,7 +57,7 @@ export const ROLES: Role[] = [
     "Achieved 92% action compliance – highest in the team – by institutionalizing structured query resolution across 80+ clients.",
     "Scoped 20+ Superset dashboards; cut consultant analysis time by 30% and reduced client escalation meetings by 20/week.",
   ]},
-  { id: 'adani', company: 'Adani Enterprises Ltd.', key: '₹235 Cr+', keyLabel: 'capex evaluated', title: 'Senior Engineer', period: 'Jan 2022 – Jul 2022', months: '6 mo', points: [
+  { id: 'adani', company: 'Adani Enterprises Ltd.', short: 'Adani Enterprises', key: '₹235 Cr+', keyLabel: 'capex evaluated', title: 'Senior Engineer', period: 'Jan 2022 – Jul 2022', months: '6 mo', points: [
     "Acted as SPOC for RMHS (INR 180 Cr+) & Steam Dryer (INR 55 Cr+); evaluated proposals from 15+ intl. suppliers.",
     "Synthesized 200+ technical documents from China Nerin & TCE; delivered a bid evaluation report covering 10+ intl. suppliers.",
     "Managed vehicle logistics for 1,000+ employees at Mundra; delivered 25% logistics cost reduction by strategic fleet planning.",
@@ -58,7 +69,7 @@ export const ROLES: Role[] = [
     "Cut setup time by 67% (12 hrs to 4 hrs) by automating machine & line processes using SMED Lean; saved 200+ man-hours.",
     "Delivered 25% (INR 80 lakh) cost reduction; saved 380+ man-hours by applying six-sigma and lean waste reduction tools.",
   ]},
-  { id: 'honda', company: 'Honda Motorcycles India', key: '42 → 0', keyLabel: 'minutes of line stoppage', title: 'Summer Trainee — Process Improvement', period: 'Jan – Jun 2020', months: '6 mo', points: [
+  { id: 'honda', company: 'Honda Motorcycles India', short: 'Honda Motorcycles', key: '42 → 0', keyLabel: 'minutes of line stoppage', title: 'Summer Trainee — Process Improvement', period: 'Jan – Jun 2020', months: '6 mo', points: [
     'Investigated mission-case leaks, brought leakage to 0%, and reduced the staffing needed for defect repair by two people per cycle.',
     'Root-cause analysis eliminated line defects related to the leak. Operator fatigue was reported at 0%.',
     'Brought line stoppage from 42 minutes to zero and cut overtime 63%, from 2.4 labour hours to 0.9.',
@@ -66,11 +77,12 @@ export const ROLES: Role[] = [
 ]
 
 type CaseVisual =
-  | { type: 'warehouse' }
   | { type: 'photo' | 'document'; src: string; alt: string }
   | { type: 'figures'; label: string; items: [string, string][] }
 
 export type Project = {
+  /** Used in links such as `/?case=blinkit`. */
+  id: string
   tag: string
   discipline: string
   title: string
@@ -79,59 +91,92 @@ export type Project = {
   tone: 'orange' | 'blue' | 'yellow' | 'ink'
   to: string
   visual: CaseVisual
+  /** "What I did", shown when a featured case is opened. */
+  points?: string[]
 }
 
 export const PROJECTS: Project[] = [
   {
-    tag: 'Blinkit', discipline: 'Product discovery', tone: 'orange', to: '/work#blinkit',
+    id: 'blinkit', tag: 'Blinkit', discipline: 'Product discovery', tone: 'orange', to: '/work#blinkit',
     title: 'Which pick list should Blinkit roll out?',
     body: 'After visiting 50+ stores, I piloted a change to the order of items on the pick list. Pickers followed the planned route more often and spent 10% less time per item.',
     metrics: [['43% → 92%', 'Pick-path adherence'], ['+7.5%', 'Throughput'], ['2,300+', 'Stores digitised'], ['−43%', 'Inventory variance']],
-    visual: { type: 'warehouse' },
+    visual: { type: 'photo', src: '/work/warehouse-overview.webp', alt: 'Overhead model of a Blinkit dark store with the planned pick route' },
+    points: [
+      'Led field discovery across 50+ stores to find where picking and putaway broke down.',
+      'Built mobile and handheld validation gates that cut location errors by more than 70%.',
+      'Piloted a new pick sequence pan-India: time per item fell 10% and throughput rose 7.5%.',
+      'Led a 10+ member cross-functional team through 15+ pilots, then scaled the winners.',
+    ],
   },
   {
-    tag: 'Shopdeck', discipline: 'Growth strategy', tone: 'blue', to: '/work#shopdeck',
+    id: 'shopdeck', tag: 'Shopdeck', discipline: 'Growth strategy', tone: 'blue', to: '/work#shopdeck',
     title: 'Finding where merchants lost margin',
     body: 'I traced returns and ad performance across 80+ brands, then gave consultants a decision tree to diagnose each merchant’s drop in profitability.',
     metrics: [['+118%', 'Profitability across 42 brands'], ['₹100 Cr+', 'Annual portfolio revenue'], ['3M', 'Orders per year']],
     visual: { type: 'photo', src: '/docs/WhatsApp_Image_2026-04-14_at_5_21_03_AM.jpeg', alt: 'Handwritten Shopdeck decision tree for diagnosing returns' },
+    points: [
+      'Drew a returns decision tree so consultants could tell a one-off spike from a persistent problem.',
+      'Wrote a 100-point pre-live checklist and a 25-step campaign SOP used by 80 consultants across 500+ launches.',
+      'Scoped 20+ Superset dashboards, cutting consultant analysis time by 30%.',
+      'Reached 92% action compliance, the highest in the team.',
+    ],
   },
   {
-    tag: 'Accenture', discipline: 'Commercial strategy', tone: 'yellow', to: '/work#accenture',
+    id: 'accenture', tag: 'Accenture', discipline: 'Commercial strategy', tone: 'yellow', to: '/work#accenture',
     title: 'What should mine drilling cost?',
     body: 'I compared five international bids and built a bottom-up model for underground drilling. Breaking down the price exposed the cost drivers the client could negotiate.',
     metrics: [['10%', 'Potential budget saving'], ['5', 'Vendor proposals'], ['50+', 'Bid criteria'], ['15+', 'Cost drivers']],
     visual: { type: 'figures', label: 'Building the should-cost model', items: [['5', 'International bids'], ['50+', 'Bid criteria'], ['15+', 'Cost drivers']] },
+    points: [
+      'Scrutinised 5 international vendor proposals against 50+ metrics.',
+      'Turned the comparison into a structured bid-evaluation report for the client.',
+      'Designed a should-cost model across 15+ cost drivers, identifying a 10% budget saving.',
+    ],
   },
   {
-    tag: 'X-Culture', discipline: 'Market entry', tone: 'blue', to: '/work#x-culture',
+    id: 'x-culture', tag: 'X-Culture', discipline: 'Market entry', tone: 'blue', to: '/work#x-culture',
     title: 'Taking a consumer brand into a new market',
     body: 'I led market-entry planning for a consumer goods client. Our global team benchmarked competitors, compared pricing and recommended how the product should change for the new market.',
-    metrics: [['Top 40%', 'Team report among 1,000+ teams'], ['4.9/5', 'Individual peer rating'], ['5.2/7', 'Team report score']],
+    metrics: [['Top 5%', 'Peer rating among 6,500+ students'], ['Top 40%', 'Team report among 1,000+ teams'], ['4.9/5', 'Individual peer rating'], ['5.2/7', 'Team report score']],
     visual: { type: 'document', src: '/work/evidence/x-culture-certificate.webp', alt: 'X-Culture international business consulting certificate for the client expansion project' },
+    points: [
+      'Led go-to-market and market-entry work: competitive benchmarking, pricing and a product adaptation plan.',
+      'Rated 5.0/5 by peers on effort, intellectual contribution and technical skills.',
+      'Ranked in the top 9.1% individually among 6,500+ students.',
+    ],
   },
   {
-    tag: 'Adani', discipline: 'Capital investment', tone: 'ink', to: '/work#adani',
+    id: 'adani', tag: 'Adani', discipline: 'Capital investment', tone: 'ink', to: '/work#adani',
     title: 'Comparing bids for two plant investments',
     body: 'I evaluated proposals from 15+ international suppliers. I consolidated more than 200 technical documents into a bid report so the team could compare suppliers on a common basis.',
     metrics: [['₹235 Cr+', 'Capital expenditure evaluated'], ['15+', 'International suppliers'], ['200+', 'Technical documents']],
     visual: { type: 'figures', label: 'Capital proposals reviewed', items: [['₹180 Cr+', 'Materials handling'], ['₹55 Cr+', 'Steam dryer']] },
+    points: [
+      'Single point of contact for the raw-material handling system (₹180 Cr+) and the steam dryer (₹55 Cr+).',
+      'Synthesised 200+ technical documents from China Nerin and TCE into a bid-evaluation report.',
+      'Planned vehicle logistics for 1,000+ employees at Mundra, cutting logistics cost 25%.',
+    ],
   },
   {
-    tag: 'UPS Lakshmi', discipline: 'B2B growth', tone: 'orange', to: '/work#ups-lakshmi',
+    id: 'ups-lakshmi', tag: 'UPS Lakshmi', discipline: 'B2B growth', tone: 'orange', to: '/work#ups-lakshmi',
     title: 'Growing an aerospace account',
     body: 'I managed industrial accounts including Honeywell and Boeing. Honeywell sales reached ₹80 lakh while on-time delivery exceeded 95% and the customer recorded zero rejections.',
     metrics: [['+60%', 'Honeywell sales growth'], ['₹5 Cr', 'Record monthly sales across accounts'], ['9+', 'Accounts managed']],
     visual: { type: 'figures', label: 'Honeywell account performance', items: [['₹80 lakh', 'Sales'], ['95%+', 'On-time delivery'], ['0', 'Rejections']] },
   },
   {
-    tag: 'Techspardha', discipline: 'Team leadership', tone: 'yellow', to: '/leadership',
+    id: 'techspardha', tag: 'Techspardha', discipline: 'Team leadership', tone: 'yellow', to: '/leadership',
     title: 'Funding ten events on one festival budget',
     body: 'As Mechanical Society secretary, I coordinated five teams and prioritised spending across ten events. We cut expenses by 25% for a festival attended by more than 4,000 people.',
     metrics: [['−25%', 'Festival expenses'], ['100+', 'Society members'], ['4,000+', 'Attendees']],
     visual: { type: 'document', src: '/work/evidence/techspardha-budget.webp', alt: 'Techspardha budget showing event prizes and committee costs' },
   },
 ]
+
+/** The five cases in the home page carousel, in order. */
+export const FEATURED_CASES = ['blinkit', 'shopdeck', 'accenture', 'x-culture', 'adani']
+  .map(id => PROJECTS.find(project => project.id === id)!)
 
 export const SKILLS = [
   { name: 'Strategy', tone: 'orange' as const, items: ['Issue trees', 'MECE', 'Market sizing', 'Should-cost', 'Benchmarking', 'Scenarios', 'Business cases'] },
@@ -175,7 +220,4 @@ export const DOCS = [
   { label: 'CV — Product & Growth', href: './docs/Sumit_Yadav_Product.pdf' },
   { label: 'Shopdeck campaign handbook', href: './docs/Campaign_Handbook__2_.pdf' },
   { label: 'Shopdeck pre-live checklist deck', href: './docs/Pre-Live__PPT_Final__1_.pdf' },
-]
-export const LOGOS = [
-  ['Blinkit','blinkit.svg'],['Accenture','accenture.svg'],['Adani','adani.svg'],['Honda','honda.svg'],['IIM Calcutta','iimc.svg'],
 ]

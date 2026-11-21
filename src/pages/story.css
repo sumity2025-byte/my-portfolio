@@ -1,0 +1,17 @@
+.bio { padding-block: clamp(32px, 6vw, 90px); }
+.bio h1 { font-size: clamp(3.3rem, 8.5vw, 8.2rem); }
+.working-files h2 { font-size: clamp(3rem, 7vw, 6.5rem); }
+.bio-timeline { margin-top: clamp(28px, 4vw, 62px); }
+.bio-timeline article { border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(160px, 1fr) minmax(0, 2fr); gap: clamp(22px, 5vw, 70px); padding: clamp(26px, 3.3vw, 50px) 0; }
+.bio-period { color: var(--mute); font: 500 clamp(.75rem, 1vw, .9rem)/1.55 var(--mono); max-width: 30ch; text-transform: uppercase; }
+.bio-timeline h3 { font-size: clamp(2.1rem, 4.2vw, 4.3rem); line-height: .98; }
+.bio-timeline article div > p { max-width: 68ch; margin-top: .9rem; }
+.bio-links { display: flex; flex-wrap: wrap; gap: 8px 23px; margin: 18px 0 0; }
+.bio-links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 650; border-bottom: 1px solid var(--line); font-size: .9rem; }
+.bio-links a:is(:hover, :focus-visible) { color: var(--blue); border-color: currentColor; }
+.working-files { padding-block: clamp(40px, 6vw, 90px); }
+.working-files header { display: flex; gap: 20px; flex-wrap: wrap; align-items: end; justify-content: space-between; margin-bottom: 28px; }
+@media (max-width: 700px) {
+  .bio-timeline article { grid-template-columns: 1fr; gap: 9px; }
+  .bio-period { max-width: none; }
+}

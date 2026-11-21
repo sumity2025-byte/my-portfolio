@@ -1,5 +1,4 @@
 import { TLink } from '../fx/PageTransition'
-import { BlockReveal } from '../fx/Text'
 
 const milestones = [
   {
@@ -50,8 +49,8 @@ const milestones = [
 ]
 
 export default function AboutStory() {
-  return <section className="bio wrap" id="about" aria-labelledby="bio-title">
-    <header><p className="eyebrow">About Sumit</p><BlockReveal><h2 id="bio-title">How I got here<span className="o">.</span></h2></BlockReveal></header>
+  return <section className="bio wrap" aria-labelledby="bio-title">
+    <header><p className="eyebrow">My story</p><h1 className="display" id="bio-title">How I got here<span className="o">.</span></h1></header>
     <div className="bio-timeline">{milestones.map(m => <article key={m.title}>
       <p className="bio-period">{m.period}</p><div><h3>{m.title}</h3>
         {m.paragraphs.map(p => <p key={p}>{p}</p>)}
